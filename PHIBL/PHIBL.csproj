@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{43246ADB-7494-4ACC-AF3E-E27519DCCA95}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PHIBL</RootNamespace>
+    <AssemblyName>PHIBL</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>7.2</LangVersion>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>7.2</LangVersion>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>..\Dependency\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependency\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>..\Dependency\Assembly-CSharp-firstpass.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="IllusionInjector">
+      <HintPath>..\Dependency\IllusionInjector.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="IllusionPlugin">
+      <HintPath>..\Dependency\IllusionPlugin.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ProjectHighHeel">
+      <HintPath>..\Dependency\ProjectHighHeel.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependency\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependency\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Alloy\AlloyDeferredRendererPlus.cs" />
+    <Compile Include="HarmonyPatch\LightObjectPatch.cs" />
+    <Compile Include="HarmonyPatch\ScenePatch.cs" />
+    <Compile Include="PlayHome\ScreenShot.cs" />
+    <Compile Include="PostProcessing.Utilities\FocusPuller.cs" />
+    <Compile Include="HarmonyPatch\BodyPatch.cs" />
+    <Compile Include="PlayHome\CamCtrlStudio.cs" />
+    <Compile Include="PlayHome\CamCtrlGame.cs" />
+    <Compile Include="PlayHome\CheckLastMapAndTime.cs" />
+    <Compile Include="PlayHome\fixHDR.cs" />
+    <Compile Include="HarmonyPatch\LightMapPatch.cs" />
+    <Compile Include="HarmonyPatch\MapChangePatch.cs" />
+    <Compile Include="HarmonyPatch\ScreenShotPatch.cs" />
+    <Compile Include="RendererSetup.cs" />
+    <Compile Include="HarmonyPatch\SceneChangePatch.cs" />
+    <Compile Include="Modules\TessellationModule.cs" />
+    <Compile Include="Modules\DeferredSkinModule.cs" />
+    <Compile Include="DeferredShading.cs" />
+    <Compile Include="PlayHome\DHHCompatible.cs" />
+    <Compile Include="Save.cs" />
+    <Compile Include="Managed\GameManager.cs" />
+    <Compile Include="UI\GUIStrings.cs" />
+    <Compile Include="Modules\LightModule.cs" />
+    <Compile Include="Modules\PostProcessingModule.cs" />
+    <Compile Include="Modules\ReflectionModule.cs" />
+    <Compile Include="Utilities\FolderAssist.cs" />
+    <Compile Include="IBLPlugin.cs" />
+    <Compile Include="Modules\SceneModule.cs" />
+    <Compile Include="PHIBL.cs" />
+    <Compile Include="UI\IBLUI.cs" />
+    <Compile Include="Modules\IBLModules.cs" />
+    <Compile Include="PostProcessing.Utilities\PostProcessingController.cs" />
+    <Compile Include="PostProcessing\Attributes\GetSetAttribute.cs" />
+    <Compile Include="PostProcessing\Attributes\MinAttribute.cs" />
+    <Compile Include="PostProcessing\Attributes\TrackballAttribute.cs" />
+    <Compile Include="PostProcessing\Attributes\TrackballGroupAttribute.cs" />
+    <Compile Include="PostProcessing\Components\AmbientOcclusionComponent.cs" />
+    <Compile Include="PostProcessing\Components\BloomComponent.cs" />
+    <Compile Include="PostProcessing\Components\BuiltinDebugViewsComponent.cs" />
+    <Compile Include="PostProcessing\Components\ChromaticAberrationComponent.cs" />
+    <Compile Include="PostProcessing\Components\ColorGradingComponent.cs" />
+    <Compile Include="PostProcessing\Components\DepthOfFieldComponent.cs" />
+    <Compile Include="PostProcessing\Components\DitheringComponent.cs" />
+    <Compile Include="PostProcessing\Components\EyeAdaptationComponent.cs" />
+    <Compile Include="PostProcessing\Components\FogComponent.cs" />
+    <Compile Include="PostProcessing\Components\FxaaComponent.cs" />
+    <Compile Include="PostProcessing\Components\GrainComponent.cs" />
+    <Compile Include="PostProcessing\Components\MotionBlurComponent.cs" />
+    <Compile Include="PostProcessing\Components\ScreenSpaceReflectionComponent.cs" />
+    <Compile Include="PostProcessing\Components\TaaComponent.cs" />
+    <Compile Include="PostProcessing\Components\UserLutComponent.cs" />
+    <Compile Include="PostProcessing\Components\VignetteComponent.cs" />
+    <Compile Include="PostProcessing\Models\AmbientOcclusionModel.cs" />
+    <Compile Include="PostProcessing\Models\AntialiasingModel.cs" />
+    <Compile Include="PostProcessing\Models\BloomModel.cs" />
+    <Compile Include="PostProcessing\Models\BuiltinDebugViewsModel.cs" />
+    <Compile Include="PostProcessing\Models\ChromaticAberrationModel.cs" />
+    <Compile Include="PostProcessing\Models\ColorGradingModel.cs" />
+    <Compile Include="PostProcessing\Models\DepthOfFieldModel.cs" />
+    <Compile Include="PostProcessing\Models\DitheringModel.cs" />
+    <Compile Include="PostProcessing\Models\EyeAdaptationModel.cs" />
+    <Compile Include="PostProcessing\Models\FogModel.cs" />
+    <Compile Include="PostProcessing\Models\GrainModel.cs" />
+    <Compile Include="PostProcessing\Models\MotionBlurModel.cs" />
+    <Compile Include="PostProcessing\Models\ScreenSpaceReflectionModel.cs" />
+    <Compile Include="PostProcessing\Models\UserLutModel.cs" />
+    <Compile Include="PostProcessing\Models\VignetteModel.cs" />
+    <Compile Include="PostProcessing\PostProcessingBehaviour.cs" />
+    <Compile Include="PostProcessing\PostProcessingComponent.cs" />
+    <Compile Include="PostProcessing\PostProcessingContext.cs" />
+    <Compile Include="PostProcessing\PostProcessingModel.cs" />
+    <Compile Include="PostProcessing\PostProcessingProfile.cs" />
+    <Compile Include="PostProcessing\Utils\ColorGradingCurve.cs" />
+    <Compile Include="PostProcessing\Utils\GraphicsUtils.cs" />
+    <Compile Include="PostProcessing\Utils\MaterialFactory.cs" />
+    <Compile Include="PostProcessing\Utils\RenderTextureFactory.cs" />
+    <Compile Include="ProceduralSkyboxManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="JSONReadWrite.cs" />
+    <Compile Include="SkyboxManager.cs" />
+    <Compile Include="Modules\UserModule.cs" />
+    <Compile Include="MessagePack.UnityNewFormat\Formatters.cs" />
+    <Compile Include="MessagePack.UnityNewFormat\UnityResolver.cs" />
+    <Compile Include="Utilities\Control.cs" />
+    <Compile Include="Utilities\Data.cs" />
+    <Compile Include="Utilities\FileData.cs" />
+    <Compile Include="Utilities\UserData.cs" />
+    <Compile Include="Utilities\Utils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LightShafts\LightShafts.csproj">
+      <Project>{f417c8bd-3d1d-453e-8d00-2ac6bfb2e1c2}</Project>
+      <Name>LightShafts</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ilmerge">
+      <Version>3.0.29</Version>
+    </PackageReference>
+    <PackageReference Include="ILMerge.MSBuild.Tasks">
+      <Version>1.0.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="MSBuild.ILMerge.Task">
+      <Version>1.0.5</Version>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
