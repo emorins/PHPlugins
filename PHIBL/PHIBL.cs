@@ -104,6 +104,8 @@ namespace PHIBL
             {
                 Light light = directionalLights[i];
                 AlloyAreaLight alloyAreaLight = light.GetComponent<AlloyAreaLight>();
+                LightSerializationData lightSerializationData = new LightSerializationData(light, alloyAreaLight);
+                lightsSerializationData.lights.Add(lightSerializationData);
             }
 
             return lightsSerializationData;

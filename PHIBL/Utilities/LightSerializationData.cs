@@ -10,16 +10,21 @@ namespace PHIBL.Utilities
     [Serializable]
     public class LightsSerializationData
     {
-        public LightSerializationData[] lights;
+        public List<LightSerializationData> lights;
+
+        public LightsSerializationData()
+        {
+            lights = new List<LightSerializationData>();
+        }
     }
 
     [Serializable]
     public class LightSerializationData : ISerializationCallbackReceiver
     {
-        public Dictionary<int, string> lightData;
+        public Dictionary<string, string> lightData;
 
         [SerializeField]
-        private List<int> _keyList;
+        private List<string> _keyList;
         [SerializeField]
         private List<string> _valueList;
 
@@ -29,10 +34,8 @@ namespace PHIBL.Utilities
 
         public LightSerializationData(Light light, AlloyAreaLight alloyAreaLight)
         {
-            lightData = new Dictionary<int, string>();
-            lightData.Add(1, "A");
-            lightData.Add(2, "B");
-            lightData.Add(3, "C");
+            lightData = new Dictionary<string, string>();
+            lightData.Add("shadowSoftnessFade", light.range.ToString());
         }
 
         public void OnBeforeSerialize()
