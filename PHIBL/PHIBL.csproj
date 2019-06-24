@@ -162,6 +162,7 @@
     <Compile Include="Utilities\Control.cs" />
     <Compile Include="Utilities\Data.cs" />
     <Compile Include="Utilities\FileData.cs" />
+    <Compile Include="Utilities\LightSerializationData.cs" />
     <Compile Include="Utilities\UserData.cs" />
     <Compile Include="Utilities\Utils.cs" />
   </ItemGroup>

@@ -70,7 +70,8 @@ namespace PHIBL.Patch
                     binaryWriter.Write(__instance.skybox);
 
                     // Save Light
-
+                    var phibl = UnityEngine.Object.FindObjectOfType<PHIBL>();
+                    binaryWriter.Write(JsonUtility.ToJson(phibl.LightsSerializ()));
 
                     binaryWriter.Write("【PHStudio】");
                 }

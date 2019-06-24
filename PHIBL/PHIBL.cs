@@ -7,6 +7,7 @@ using IllusionPlugin;
 using System.Collections.Generic;
 using PHIBL.PostProcessing.Utilities;
 using PHIBL.PostProcessing;
+using PHIBL.Utilities;
 using UnityEngine.Rendering;
 using static PHIBL.DeferredShadingUtils;
 using static PHIBL.UIUtils;
@@ -94,6 +95,20 @@ namespace PHIBL
             else
                 StudioMode = false;
         }
+
+        public LightsSerializationData LightsSerializ()
+        {
+            LightsSerializationData lightsSerializationData = new LightsSerializationData();
+
+            for (int i = 0; i < directionalLights.Count; i++)
+            {
+                Light light = directionalLights[i];
+                AlloyAreaLight alloyAreaLight = light.GetComponent<AlloyAreaLight>();
+            }
+
+            return lightsSerializationData;
+        }
+
         List<Light> defaultLights;
         List<Light> directionalLights = new List<Light>();
         List<Light> pointLights = new List<Light>();
