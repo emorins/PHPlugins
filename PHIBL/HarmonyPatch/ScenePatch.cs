@@ -3,6 +3,9 @@ using Harmony;
 using UnityEngine;
 using Studio;
 using System.IO;
+using MessagePack;
+using MessagePack.Formatters;
+using PHIBL.Utilities;
 
 namespace PHIBL.Patch
 {
@@ -15,6 +18,18 @@ namespace PHIBL.Patch
             if (File.Exists(newpath))
             {
                 Profile.Load(newpath);
+
+                //Load Light
+                var phibl = UnityEngine.Object.FindObjectOfType<PHIBL>();
+                var bin = File.ReadAllBytes(newpath);
+                var jsonString = LZ4MessagePackSerializer.ToJson(bin);
+                LightsSerializationData lightsSerializationData = JsonUtility.FromJson<LightsSerializationData>(jsonString);
+
+
+
+                Light[] allLights = UnityEngine.Object.FindObjectsOfType<Light>();
+
+
             }
         }
     }

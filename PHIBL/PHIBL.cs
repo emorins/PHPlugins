@@ -105,7 +105,21 @@ namespace PHIBL
                 Light light = directionalLights[i];
                 AlloyAreaLight alloyAreaLight = light.GetComponent<AlloyAreaLight>();
                 LightSerializationData lightSerializationData = new LightSerializationData(light, alloyAreaLight);
-                lightsSerializationData.lights.Add(lightSerializationData);
+                lightsSerializationData.directionalLights.Add(lightSerializationData);
+            }
+            for (int i = 0; i < pointLights.Count; i++)
+            {
+                Light light = pointLights[i];
+                AlloyAreaLight alloyAreaLight = light.GetComponent<AlloyAreaLight>();
+                LightSerializationData lightSerializationData = new LightSerializationData(light, alloyAreaLight);
+                lightsSerializationData.pointLights.Add(lightSerializationData);
+            }
+            for (int i = 0; i < spotLights.Count; i++)
+            {
+                Light light = spotLights[i];
+                AlloyAreaLight alloyAreaLight = light.GetComponent<AlloyAreaLight>();
+                LightSerializationData lightSerializationData = new LightSerializationData(light, alloyAreaLight);
+                lightsSerializationData.spotLights.Add(lightSerializationData);
             }
 
             return lightsSerializationData;
@@ -686,11 +700,6 @@ namespace PHIBL
                 deferredShading.SSSSS.Reset();
                 DeferredShadingUtils.SetTessellation(profile.phong, profile.edgeLength);
             //}
-
-
-            // Load Light
-
-
         }
 
         private void LoadPostProcessingProfile(Profile profile)
