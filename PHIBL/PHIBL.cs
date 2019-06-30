@@ -11,6 +11,8 @@ using PHIBL.Utilities;
 using UnityEngine.Rendering;
 using static PHIBL.DeferredShadingUtils;
 using static PHIBL.UIUtils;
+using MessagePack;
+using MessagePack.Formatters;
 
 namespace PHIBL
 {
@@ -98,6 +100,7 @@ namespace PHIBL
 
         public LightsSerializationData LightsSerializ()
         {
+            this.LightsInit();
             LightsSerializationData lightsSerializationData = new LightsSerializationData();
 
             for (int i = 0; i < directionalLights.Count; i++)
@@ -123,6 +126,100 @@ namespace PHIBL
             }
 
             return lightsSerializationData;
+        }
+        public IEnumerator LightsDeserializ(string json)
+        {
+            yield return new WaitForSeconds(1f);
+            var scene = Singleton<Studio.Scene>.Instance;
+            while (scene.isNowLoading)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+
+            LightsSerializationData lightsSerializationData = JsonUtility.FromJson<LightsSerializationData>(json);
+
+            Light[] allLights = UnityEngine.Object.FindObjectsOfType<Light>();
+            foreach (Light light in allLights)
+            {
+                UnityEngine.Object.Destroy(light);
+            }
+
+            List<Light> directionalLights = new List<Light>();
+            List<Light> pointLights = new List<Light>();
+            List<Light> spotLights = new List<Light>();
+            foreach (LightSerializationData data in lightsSerializationData.directionalLights)
+            {
+                Light light = this.LightDeserializ(data);
+                directionalLights.Add(light);
+                UnityEngine.Object.Destroy(light);
+            }
+            foreach (LightSerializationData data in lightsSerializationData.pointLights)
+            {
+                Light light = this.LightDeserializ(data);
+                pointLights.Add(light);
+                UnityEngine.Object.Destroy(light);
+            }
+            foreach (LightSerializationData data in lightsSerializationData.spotLights)
+            {
+                Light light = this.LightDeserializ(data);
+                spotLights.Add(light);
+                UnityEngine.Object.Destroy(light);
+            }
+
+            foreach (Light light in directionalLights)
+            {
+                UnityEngine.Object.Instantiate(light);
+                AlloyAreaLight alloyAreaLight = light.GetComponent<AlloyAreaLight>();
+                alloyAreaLight.UpdateBinding();
+            }
+            foreach (Light light in pointLights)
+            {
+                UnityEngine.Object.Instantiate(light);
+                AlloyAreaLight alloyAreaLight = light.GetComponent<AlloyAreaLight>();
+                alloyAreaLight.UpdateBinding();
+            }
+            foreach (Light light in spotLights)
+            {
+                UnityEngine.Object.Instantiate(light);
+                AlloyAreaLight alloyAreaLight = light.GetComponent<AlloyAreaLight>();
+                alloyAreaLight.UpdateBinding();
+            }
+            this.LightsInit();
+        }
+
+        public Light LightDeserializ (LightSerializationData data)
+        {
+            Singleton<Studio.Studio>.Instance.AddLight(0);
+            Light light = UnityEngine.Object.FindObjectOfType<Light>();
+            AlloyAreaLight alloyAreaLight = light.GetOrAddComponent<AlloyAreaLight>();
+            alloyAreaLight.UpdateBinding();
+
+            light.range = float.Parse(data.lightData["range"]);
+            light.spotAngle = float.Parse(data.lightData["spotAngle"]);
+            light.cookieSize = float.Parse(data.lightData["cookieSize"]);
+            light.renderMode = (LightRenderMode)(int.Parse(data.lightData["renderMode"]));
+            light.bakedIndex = int.Parse(data.lightData["bakedIndex"]);
+            light.cullingMask = int.Parse(data.lightData["cullingMask"]);
+            light.shadowNearPlane = float.Parse(data.lightData["shadowNearPlane"]);
+            light.shadowBias = float.Parse(data.lightData["shadowBias"]);
+            light.shadowNormalBias = float.Parse(data.lightData["shadowNormalBias"]);
+            light.color = new Color(float.Parse(data.lightData["color_r"]), float.Parse(data.lightData["color_g"]), float.Parse(data.lightData["color_b"]));
+            light.intensity = float.Parse(data.lightData["intensity"]);
+            light.bounceIntensity = float.Parse(data.lightData["bounceIntensity"]);
+            light.type = (LightType)(int.Parse(data.lightData["type"]));
+            light.shadowStrength = float.Parse(data.lightData["shadowStrength"]);
+            light.shadowResolution = (LightShadowResolution)(int.Parse(data.lightData["shadowResolution"]));
+            light.shadowCustomResolution = int.Parse(data.lightData["shadowCustomResolution"]);
+            light.shadows = (LightShadows)(int.Parse(data.lightData["shadows"]));
+
+            alloyAreaLight.Radius = float.Parse(data.lightData["alloy_Radius"]);
+            alloyAreaLight.Length = float.Parse(data.lightData["alloy_Length"]);
+            alloyAreaLight.Intensity = float.Parse(data.lightData["alloy_Intensity"]);
+            alloyAreaLight.Color = new Color(float.Parse(data.lightData["alloy_Color_r"]), float.Parse(data.lightData["alloy_Color_g"]), float.Parse(data.lightData["alloy_Color_b"]));
+            alloyAreaLight.HasSpecularHighlight = (int.Parse(data.lightData["alloy_HasSpecularHighlight"]) == 1);
+            alloyAreaLight.IsAnimatedByClip = (int.Parse(data.lightData["alloy_IsAnimatedByClip"]) == 1);
+
+            return light;
         }
 
         List<Light> defaultLights;

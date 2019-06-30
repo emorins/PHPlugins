@@ -1,17 +1,23 @@
 ﻿using Harmony;
 using UnityEngine;
 using System;
+using System.IO;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using MessagePack;
+using MessagePack.Formatters;
 
 namespace PHIBL.Utilities
 {
     [Serializable]
     public class LightsSerializationData
     {
+        [SerializeField]
         public List<LightSerializationData> directionalLights;
+        [SerializeField]
         public List<LightSerializationData> pointLights;
+        [SerializeField]
         public List<LightSerializationData> spotLights;
 
         public LightsSerializationData()
@@ -19,6 +25,22 @@ namespace PHIBL.Utilities
             directionalLights = new List<LightSerializationData>();
             pointLights = new List<LightSerializationData>();
             spotLights = new List<LightSerializationData>();
+        }
+        public static void Save(string path)
+        {
+            var phibl = UnityEngine.Object.FindObjectOfType<PHIBL>();
+            //var bin = LZ4MessagePackSerializer.Serialize(JsonUtility.ToJson(phibl.LightsSerializ()));
+            byte[] bin = System.Text.Encoding.UTF8.GetBytes(JsonUtility.ToJson(phibl.LightsSerializ()));
+            File.WriteAllBytes(path, bin);
+        }
+
+        public static void Load(string path)
+        {
+            var phibl = UnityEngine.Object.FindObjectOfType<PHIBL>();
+            var bin = File.ReadAllBytes(path);
+            //var json = LZ4MessagePackSerializer.Deserialize<string>(bin);
+            string json = System.Text.Encoding.UTF8.GetString(bin);
+            phibl.StartCoroutine(phibl.LightsDeserializ(json));
         }
     }
 
@@ -42,7 +64,7 @@ namespace PHIBL.Utilities
             lightData.Add("range", light.range.ToString());
             lightData.Add("spotAngle", light.spotAngle.ToString());
             lightData.Add("cookieSize", light.cookieSize.ToString());
-            lightData.Add("renderMode", light.renderMode.ToString());
+            lightData.Add("renderMode", ((int)(light.renderMode)).ToString());
             lightData.Add("bakedIndex", light.bakedIndex.ToString());
             lightData.Add("cullingMask", light.cullingMask.ToString());
             lightData.Add("shadowNearPlane", light.shadowNearPlane.ToString());
@@ -54,10 +76,11 @@ namespace PHIBL.Utilities
             lightData.Add("color_a", light.color.a.ToString());
             lightData.Add("intensity", light.intensity.ToString());
             lightData.Add("bounceIntensity", light.bounceIntensity.ToString());
+            lightData.Add("type", ((int)(light.type)).ToString());
             lightData.Add("shadowStrength", light.shadowStrength.ToString());
-            lightData.Add("shadowResolution", light.shadowResolution.ToString());
+            lightData.Add("shadowResolution", ((int)(light.shadowResolution)).ToString());
             lightData.Add("shadowCustomResolution", light.shadowCustomResolution.ToString());
-            lightData.Add("shadows", light.shadows.ToString());
+            lightData.Add("shadows", ((int)(light.shadows)).ToString());
             lightData.Add("alloy_Radius", alloyAreaLight.Radius.ToString());
             lightData.Add("alloy_Length", alloyAreaLight.Length.ToString());
             lightData.Add("alloy_Intensity", alloyAreaLight.Intensity.ToString());

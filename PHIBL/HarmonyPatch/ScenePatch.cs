@@ -1,10 +1,9 @@
 ﻿using System;
 using Harmony;
 using UnityEngine;
+using UnityEngine.Rendering;
 using Studio;
 using System.IO;
-using MessagePack;
-using MessagePack.Formatters;
 using PHIBL.Utilities;
 
 namespace PHIBL.Patch
@@ -18,18 +17,12 @@ namespace PHIBL.Patch
             if (File.Exists(newpath))
             {
                 Profile.Load(newpath);
+            }
 
-                //Load Light
-                var phibl = UnityEngine.Object.FindObjectOfType<PHIBL>();
-                var bin = File.ReadAllBytes(newpath);
-                var jsonString = LZ4MessagePackSerializer.ToJson(bin);
-                LightsSerializationData lightsSerializationData = JsonUtility.FromJson<LightsSerializationData>(jsonString);
-
-
-
-                Light[] allLights = UnityEngine.Object.FindObjectsOfType<Light>();
-
-
+            newpath = _path + "_lights.extdata";
+            if (File.Exists(newpath))
+            {
+                LightsSerializationData.Load(newpath);
             }
         }
     }
@@ -40,6 +33,8 @@ namespace PHIBL.Patch
         static bool Prefix(string _path, SceneInfo __instance, ref bool __result)
         {
             Profile.Save(_path + ".extdata");
+            LightsSerializationData.Save(_path + "_lights.extdata");
+
             using (FileStream fileStream = new FileStream(_path, FileMode.Create, FileAccess.Write))
             {
                 using (BinaryWriter binaryWriter = new BinaryWriter(fileStream))
@@ -83,10 +78,6 @@ namespace PHIBL.Patch
                     __instance.outsideSoundCtrl.Save(binaryWriter, __instance.version);
                     binaryWriter.Write(__instance.background);
                     binaryWriter.Write(__instance.skybox);
-
-                    // Save Light
-                    var phibl = UnityEngine.Object.FindObjectOfType<PHIBL>();
-                    binaryWriter.Write(JsonUtility.ToJson(phibl.LightsSerializ()));
 
                     binaryWriter.Write("【PHStudio】");
                 }
