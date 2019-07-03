@@ -100,33 +100,17 @@ namespace PHIBL
 
         public LightsSerializationData LightsSerializ()
         {
-            this.LightsInit();
             LightsSerializationData lightsSerializationData = new LightsSerializationData();
 
-            for (int i = 0; i < directionalLights.Count; i++)
+            Light[] allLights = UnityEngine.Object.FindObjectsOfType<Light>();
+            foreach (Light light in allLights)
             {
-                Light light = directionalLights[i];
                 AlloyAreaLight alloyAreaLight = light.GetComponent<AlloyAreaLight>();
-                LightSerializationData lightSerializationData = new LightSerializationData(light, alloyAreaLight);
-                lightsSerializationData.directionalLights.Add(lightSerializationData);
+                lightsSerializationData.Serializ(light, alloyAreaLight);
             }
-            for (int i = 0; i < pointLights.Count; i++)
-            {
-                Light light = pointLights[i];
-                AlloyAreaLight alloyAreaLight = light.GetComponent<AlloyAreaLight>();
-                LightSerializationData lightSerializationData = new LightSerializationData(light, alloyAreaLight);
-                lightsSerializationData.pointLights.Add(lightSerializationData);
-            }
-            for (int i = 0; i < spotLights.Count; i++)
-            {
-                Light light = spotLights[i];
-                AlloyAreaLight alloyAreaLight = light.GetComponent<AlloyAreaLight>();
-                LightSerializationData lightSerializationData = new LightSerializationData(light, alloyAreaLight);
-                lightsSerializationData.spotLights.Add(lightSerializationData);
-            }
-
             return lightsSerializationData;
         }
+
         public IEnumerator LightsDeserializ(string json)
         {
             yield return new WaitForSeconds(1f);
@@ -139,60 +123,21 @@ namespace PHIBL
             LightsSerializationData lightsSerializationData = JsonUtility.FromJson<LightsSerializationData>(json);
 
             Light[] allLights = UnityEngine.Object.FindObjectsOfType<Light>();
-            foreach (Light light in allLights)
-            {
-                UnityEngine.Object.Destroy(light);
-            }
 
-            List<Light> directionalLights = new List<Light>();
-            List<Light> pointLights = new List<Light>();
-            List<Light> spotLights = new List<Light>();
-            foreach (LightSerializationData data in lightsSerializationData.directionalLights)
+            /*
+            foreach (LightSerializationData data in lightsSerializationData.lights)
             {
-                Light light = this.LightDeserializ(data);
-                directionalLights.Add(light);
-                UnityEngine.Object.Destroy(light);
+                foreach (Light light in allLights)
+                {
+                    this.LightDeserializ(light, data);
+                }
             }
-            foreach (LightSerializationData data in lightsSerializationData.pointLights)
-            {
-                Light light = this.LightDeserializ(data);
-                pointLights.Add(light);
-                UnityEngine.Object.Destroy(light);
-            }
-            foreach (LightSerializationData data in lightsSerializationData.spotLights)
-            {
-                Light light = this.LightDeserializ(data);
-                spotLights.Add(light);
-                UnityEngine.Object.Destroy(light);
-            }
-
-            foreach (Light light in directionalLights)
-            {
-                UnityEngine.Object.Instantiate(light);
-                AlloyAreaLight alloyAreaLight = light.GetComponent<AlloyAreaLight>();
-                alloyAreaLight.UpdateBinding();
-            }
-            foreach (Light light in pointLights)
-            {
-                UnityEngine.Object.Instantiate(light);
-                AlloyAreaLight alloyAreaLight = light.GetComponent<AlloyAreaLight>();
-                alloyAreaLight.UpdateBinding();
-            }
-            foreach (Light light in spotLights)
-            {
-                UnityEngine.Object.Instantiate(light);
-                AlloyAreaLight alloyAreaLight = light.GetComponent<AlloyAreaLight>();
-                alloyAreaLight.UpdateBinding();
-            }
-            this.LightsInit();
+            */
         }
-
-        public Light LightDeserializ (LightSerializationData data)
+        /*
+        public Light LightDeserializ (Light light, LightSerializationData data)
         {
-            Singleton<Studio.Studio>.Instance.AddLight(0);
-            Light light = UnityEngine.Object.FindObjectOfType<Light>();
             AlloyAreaLight alloyAreaLight = light.GetOrAddComponent<AlloyAreaLight>();
-            alloyAreaLight.UpdateBinding();
 
             light.range = float.Parse(data.lightData["range"]);
             light.spotAngle = float.Parse(data.lightData["spotAngle"]);
@@ -221,6 +166,7 @@ namespace PHIBL
 
             return light;
         }
+        */
 
         List<Light> defaultLights;
         List<Light> directionalLights = new List<Light>();
