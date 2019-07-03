@@ -1,61 +1,19 @@
 ﻿using Harmony;
 using UnityEngine;
+using UnityEngine.Rendering;
 using System;
 using System.IO;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using MessagePack;
-using MessagePack.Resolvers;
-using MessagePack.Formatters;
 
 namespace PHIBL.Utilities
 {
-    public class LightsSerializationCompositeResolver : IFormatterResolver
-    {
-        public static IFormatterResolver Instance = new LightsSerializationCompositeResolver();
-
-        static readonly IFormatterResolver[] resolvers = new[]
-        {
-        // resolver custom types first
-        MessagePack.Unity.UnityResolver2.Instance,
-        BuiltinResolver.Instance, // Try Builtin
-        DynamicEnumResolver.Instance, // Try Enum
-        DynamicGenericResolver.Instance, // Try Array, Tuple, Collection
-        DynamicUnionResolver.Instance, // Try Union(Interface)
-        DynamicObjectResolver.Instance, // Try Object
-        PrimitiveObjectResolver.Instance, // finally, try primitive resolver
-        // finaly use standard resolver
-        MessagePackSerializer.DefaultResolver
-        };
-
-        LightsSerializationCompositeResolver() { }
-
-        public IMessagePackFormatter<T> GetFormatter<T>() => FormatterCache<T>.formatter;
-
-        static class FormatterCache<T>
-        {
-            public static readonly IMessagePackFormatter<T> formatter;
-
-            static FormatterCache()
-            {
-                foreach (var item in resolvers)
-                {
-                    var f = item.GetFormatter<T>();
-                    if (f != null)
-                    {
-                        formatter = f;
-                        return;
-                    }
-                }
-            }
-        }
-    }
-
     [Serializable]
-    [MessagePackObject(keyAsPropertyName: true)]
     public class LightsSerializationData
     {
+        [SerializeField]
+        public List<string> name = new List<string>();
         [SerializeField]
         public List<string> range = new List<string>();
         [SerializeField]
@@ -132,6 +90,7 @@ namespace PHIBL.Utilities
 
         public void Serializ(Light light, AlloyAreaLight alloyAreaLight)
         {
+            name.Add(light.name);
             range.Add(light.range.ToString());
             spotAngle.Add(light.spotAngle.ToString());
             cookieSize.Add(light.cookieSize.ToString());
@@ -159,6 +118,37 @@ namespace PHIBL.Utilities
             alloy_Color_b.Add(alloyAreaLight.Color.b.ToString());
             alloy_HasSpecularHighlight.Add(Convert.ToInt32(alloyAreaLight.HasSpecularHighlight).ToString());
             alloy_IsAnimatedByClip.Add(Convert.ToInt32(alloyAreaLight.IsAnimatedByClip).ToString());
+        }
+
+        public void Deserializ(ref Light light, int index)
+        {
+            AlloyAreaLight alloyAreaLight = light.GetComponent<AlloyAreaLight>();
+
+            light.name = name[index];
+            light.range = float.Parse(range[index]);
+            light.spotAngle = float.Parse(spotAngle[index]);
+            light.cookieSize = float.Parse(cookieSize[index]);
+            light.renderMode = (LightRenderMode)(int.Parse(renderMode[index]));
+            light.bakedIndex = int.Parse(bakedIndex[index]);
+            light.cullingMask = int.Parse(cullingMask[index]);
+            light.shadowNearPlane = float.Parse(shadowNearPlane[index]);
+            light.shadowBias = float.Parse(shadowBias[index]);
+            light.shadowNormalBias = float.Parse(shadowNormalBias[index]);
+            light.color = new Color(float.Parse(color_r[index]), float.Parse(color_g[index]), float.Parse(color_b[index]));
+            light.intensity = float.Parse(intensity[index]);
+            light.bounceIntensity = float.Parse(bounceIntensity[index]);
+            light.type = (LightType)(int.Parse(type[index]));
+            light.shadowStrength = float.Parse(shadowStrength[index]);
+            light.shadowResolution = (LightShadowResolution)(int.Parse(shadowResolution[index]));
+            light.shadowCustomResolution = int.Parse(shadowCustomResolution[index]);
+            light.shadows = (LightShadows)(int.Parse(shadows[index]));
+
+            alloyAreaLight.Radius = float.Parse(alloy_Radius[index]);
+            alloyAreaLight.Length = float.Parse(alloy_Length[index]);
+            alloyAreaLight.Intensity = float.Parse(alloy_Intensity[index]);
+            alloyAreaLight.Color = new Color(float.Parse(alloy_Color_r[index]), float.Parse(alloy_Color_g[index]), float.Parse(alloy_Color_b[index]));
+            alloyAreaLight.HasSpecularHighlight = (int.Parse(alloy_HasSpecularHighlight[index]) == 1);
+            alloyAreaLight.IsAnimatedByClip = (int.Parse(alloy_IsAnimatedByClip[index]) == 1);
         }
     }
 }
