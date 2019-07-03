@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using Studio;
 using System.IO;
+using System.Collections;
+using System.Collections.Generic;
 using PHIBL.Utilities;
 
 namespace PHIBL.Patch
@@ -18,6 +20,30 @@ namespace PHIBL.Patch
             {
                 Profile.Load(newpath);
             }
+
+            /*
+            Dictionary<TreeNodeObject, ObjectCtrlInfo> dicInfo = Singleton<Studio.Studio>.Instance.dicInfo;
+            foreach (KeyValuePair <TreeNodeObject, ObjectCtrlInfo >kvp in dicInfo)
+            {
+                if (kvp.Value != null && kvp.Key != null)
+                {
+                    if (kvp.Value is OCILight)
+                    {
+                        OCILight value = kvp.Value as OCILight;
+                        value.light.intensity = 10.0f;
+                        value.lightInfo.intensity = 10.0f;
+                        value.light.GetComponent<AlloyAreaLight>().Intensity = 10.0f;
+                    }
+                }
+            }
+
+            Light[] allLights = UnityEngine.Object.FindObjectsOfType<Light>();
+            foreach (Light light in allLights)
+            {
+                light.intensity = 10.0f;
+                light.GetComponent<AlloyAreaLight>().Intensity = 10.0f;
+            }
+            */
 
             newpath = _path + "_lights.extdata";
             if (File.Exists(newpath))

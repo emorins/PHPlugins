@@ -11,6 +11,7 @@ using MessagePack.Formatters;
 namespace PHIBL.Utilities
 {
     [Serializable]
+    [MessagePackObject(keyAsPropertyName: true)]
     public class LightsSerializationData
     {
         [SerializeField]
@@ -19,32 +20,46 @@ namespace PHIBL.Utilities
         public List<LightSerializationData> pointLights;
         [SerializeField]
         public List<LightSerializationData> spotLights;
+        [SerializeField]
+        public List<LightSerializationData> areaLights;
 
         public LightsSerializationData()
         {
             directionalLights = new List<LightSerializationData>();
             pointLights = new List<LightSerializationData>();
             spotLights = new List<LightSerializationData>();
+            areaLights = new List<LightSerializationData>();
         }
         public static void Save(string path)
         {
+            /*
             var phibl = UnityEngine.Object.FindObjectOfType<PHIBL>();
-            //var bin = LZ4MessagePackSerializer.Serialize(JsonUtility.ToJson(phibl.LightsSerializ()));
             byte[] bin = System.Text.Encoding.UTF8.GetBytes(JsonUtility.ToJson(phibl.LightsSerializ()));
+            File.WriteAllBytes(path, bin);
+            */
+            var phibl = UnityEngine.Object.FindObjectOfType<PHIBL>();
+            var bin = LZ4MessagePackSerializer.Serialize(phibl.LightsSerializ(), CustomCompositeResolver.Instance);
             File.WriteAllBytes(path, bin);
         }
 
         public static void Load(string path)
         {
+            /*
             var phibl = UnityEngine.Object.FindObjectOfType<PHIBL>();
             var bin = File.ReadAllBytes(path);
-            //var json = LZ4MessagePackSerializer.Deserialize<string>(bin);
             string json = System.Text.Encoding.UTF8.GetString(bin);
             phibl.StartCoroutine(phibl.LightsDeserializ(json));
+            */
+
+            var phibl = UnityEngine.Object.FindObjectOfType<PHIBL>();
+            var bin = File.ReadAllBytes(path);
+            var lightsSerializationData = LZ4MessagePackSerializer.Deserialize<LightsSerializationData>(bin, CustomCompositeResolver.Instance);
+            phibl.StartCoroutine(phibl.LightsDeserializ(lightsSerializationData));
         }
     }
 
     [Serializable]
+    [MessagePackObject(keyAsPropertyName: true)]
     public class LightSerializationData : ISerializationCallbackReceiver
     {
         public Dictionary<string, string> lightData;
@@ -61,6 +76,7 @@ namespace PHIBL.Utilities
         public LightSerializationData(Light light, AlloyAreaLight alloyAreaLight)
         {
             lightData = new Dictionary<string, string>();
+            lightData.Add("name", light.name);
             lightData.Add("range", light.range.ToString());
             lightData.Add("spotAngle", light.spotAngle.ToString());
             lightData.Add("cookieSize", light.cookieSize.ToString());
