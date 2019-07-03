@@ -107,21 +107,7 @@ namespace PHIBL
             {
                 AlloyAreaLight alloyAreaLight = light.GetComponent<AlloyAreaLight>();
                 LightSerializationData lightSerializationData = new LightSerializationData(light, alloyAreaLight);
-                if (light.type == LightType.Directional)
-                {
-                    lightsSerializationData.directionalLights.Add(lightSerializationData);
-                } else if (light.type == LightType.Point)
-                {
-                    lightsSerializationData.pointLights.Add(lightSerializationData);
-                }
-                else if (light.type == LightType.Spot)
-                {
-                    lightsSerializationData.spotLights.Add(lightSerializationData);
-                }
-                else if (light.type == LightType.Area)
-                {
-                    lightsSerializationData.areaLights.Add(lightSerializationData);
-                }
+                lightsSerializationData.lights.Add(lightSerializationData);
             }
 
             return lightsSerializationData;
@@ -135,71 +121,24 @@ namespace PHIBL
                 yield return new WaitForEndOfFrame();
             }
 
-            //LightsSerializationData lightsSerializationData = JsonUtility.FromJson<LightsSerializationData>(json);
-
-            foreach (LightSerializationData data in lightsSerializationData.directionalLights)
+            Light[] lights = UnityEngine.Object.FindObjectsOfType<Light>();
+            for (int i = 0; i < lightsSerializationData.lights.Count; i++)
             {
-                Light light;
-                Light[] lights = UnityEngine.Object.FindObjectsOfType<Light>();
-                foreach (Light l in lights)
+                for (int j = 0; j < lights.Length; j++)
                 {
-                    if (l.name == data.lightData["name"])
+                    if (lights[j].GetInstanceID() == int.Parse(lightsSerializationData.lights[i].lightData["instanceId"]))
                     {
-                        light = this.LightDeserializ(l, data);
-                        light.enabled = true;
+                        LightDeserializ(ref lights[j], lightsSerializationData.lights[i]);
+                        lights[j].enabled = true;
                         break;
                     }
                 }
             }
-            foreach (LightSerializationData data in lightsSerializationData.pointLights)
-            {
-                Light light;
-                Light[] lights = UnityEngine.Object.FindObjectsOfType<Light>();
-                foreach (Light l in lights)
-                {
-                    if (l.name == data.lightData["name"])
-                    {
-                        light = this.LightDeserializ(l, data);
-                        light.enabled = true;
-                        break;
-                    }
-                }
-            }
-            foreach (LightSerializationData data in lightsSerializationData.spotLights)
-            {
-                Light light;
-                Light[] lights = UnityEngine.Object.FindObjectsOfType<Light>();
-                foreach (Light l in lights)
-                {
-                    if (l.name == data.lightData["name"])
-                    {
-                        light = this.LightDeserializ(l, data);
-                        light.enabled = true;
-                        break;
-                    }
-                }
-            }
-            foreach (LightSerializationData data in lightsSerializationData.areaLights)
-            {
-                Light light;
-                Light[] lights = UnityEngine.Object.FindObjectsOfType<Light>();
-                foreach (Light l in lights)
-                {
-                    if (l.name == data.lightData["name"])
-                    {
-                        light = this.LightDeserializ(l, data);
-                        light.enabled = true;
-                        break;
-                    }
-                }
-            }
-            this.LightsInit();
         }
 
-        public Light LightDeserializ (Light light, LightSerializationData data)
+        public void LightDeserializ (ref Light light, LightSerializationData data)
         {
-            AlloyAreaLight alloyAreaLight = light.GetOrAddComponent<AlloyAreaLight>();
-            alloyAreaLight.UpdateBinding();
+            AlloyAreaLight alloyAreaLight = light.GetComponent<AlloyAreaLight>();
 
             light.name = data.lightData["name"];
             light.range = float.Parse(data.lightData["range"]);
@@ -220,14 +159,14 @@ namespace PHIBL
             light.shadowCustomResolution = int.Parse(data.lightData["shadowCustomResolution"]);
             light.shadows = (LightShadows)(int.Parse(data.lightData["shadows"]));
 
-            alloyAreaLight.Radius = float.Parse(data.lightData["alloy_Radius"]);
-            alloyAreaLight.Length = float.Parse(data.lightData["alloy_Length"]);
-            alloyAreaLight.Intensity = float.Parse(data.lightData["alloy_Intensity"]);
-            alloyAreaLight.Color = new Color(float.Parse(data.lightData["alloy_Color_r"]), float.Parse(data.lightData["alloy_Color_g"]), float.Parse(data.lightData["alloy_Color_b"]));
-            alloyAreaLight.HasSpecularHighlight = (int.Parse(data.lightData["alloy_HasSpecularHighlight"]) == 1);
-            alloyAreaLight.IsAnimatedByClip = (int.Parse(data.lightData["alloy_IsAnimatedByClip"]) == 1);
-
-            return light;
+            if (alloyAreaLight != null) {
+                alloyAreaLight.Radius = float.Parse(data.lightData["alloy_Radius"]);
+                alloyAreaLight.Length = float.Parse(data.lightData["alloy_Length"]);
+                alloyAreaLight.Intensity = float.Parse(data.lightData["alloy_Intensity"]);
+                alloyAreaLight.Color = new Color(float.Parse(data.lightData["alloy_Color_r"]), float.Parse(data.lightData["alloy_Color_g"]), float.Parse(data.lightData["alloy_Color_b"]));
+                alloyAreaLight.HasSpecularHighlight = (int.Parse(data.lightData["alloy_HasSpecularHighlight"]) == 1);
+                alloyAreaLight.IsAnimatedByClip = (int.Parse(data.lightData["alloy_IsAnimatedByClip"]) == 1);
+            }
         }
 
         List<Light> defaultLights;

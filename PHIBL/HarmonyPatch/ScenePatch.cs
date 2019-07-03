@@ -58,8 +58,8 @@ namespace PHIBL.Patch
     {
         static bool Prefix(string _path, SceneInfo __instance, ref bool __result)
         {
-            Profile.Save(_path + ".extdata");
             LightsSerializationData.Save(_path + "_lights.extdata");
+            Profile.Save(_path + ".extdata");
 
             using (FileStream fileStream = new FileStream(_path, FileMode.Create, FileAccess.Write))
             {
