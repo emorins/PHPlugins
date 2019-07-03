@@ -102,17 +102,16 @@ namespace PHIBL
         {
             LightsSerializationData lightsSerializationData = new LightsSerializationData();
 
-            Light[] lights = UnityEngine.Object.FindObjectsOfType<Light>();
-            foreach (Light light in lights)
+            Light[] allLights = UnityEngine.Object.FindObjectsOfType<Light>();
+            foreach (Light light in allLights)
             {
                 AlloyAreaLight alloyAreaLight = light.GetComponent<AlloyAreaLight>();
-                LightSerializationData lightSerializationData = new LightSerializationData(light, alloyAreaLight);
-                lightsSerializationData.lights.Add(lightSerializationData);
+                lightsSerializationData.Serializ(light, alloyAreaLight);
             }
-
             return lightsSerializationData;
         }
-        public IEnumerator LightsDeserializ(LightsSerializationData lightsSerializationData)
+
+        public IEnumerator LightsDeserializ(string json)
         {
             yield return new WaitForSeconds(1f);
             var scene = Singleton<Studio.Scene>.Instance;
@@ -121,26 +120,25 @@ namespace PHIBL
                 yield return new WaitForEndOfFrame();
             }
 
-            Light[] lights = UnityEngine.Object.FindObjectsOfType<Light>();
-            for (int i = 0; i < lightsSerializationData.lights.Count; i++)
+            LightsSerializationData lightsSerializationData = JsonUtility.FromJson<LightsSerializationData>(json);
+
+            Light[] allLights = UnityEngine.Object.FindObjectsOfType<Light>();
+
+            /*
+            foreach (LightSerializationData data in lightsSerializationData.lights)
             {
-                for (int j = 0; j < lights.Length; j++)
+                foreach (Light light in allLights)
                 {
-                    if (lights[j].GetInstanceID() == int.Parse(lightsSerializationData.lights[i].lightData["instanceId"]))
-                    {
-                        LightDeserializ(ref lights[j], lightsSerializationData.lights[i]);
-                        lights[j].enabled = true;
-                        break;
-                    }
+                    this.LightDeserializ(light, data);
                 }
             }
+            */
         }
-
-        public void LightDeserializ (ref Light light, LightSerializationData data)
+        /*
+        public Light LightDeserializ (Light light, LightSerializationData data)
         {
-            AlloyAreaLight alloyAreaLight = light.GetComponent<AlloyAreaLight>();
+            AlloyAreaLight alloyAreaLight = light.GetOrAddComponent<AlloyAreaLight>();
 
-            light.name = data.lightData["name"];
             light.range = float.Parse(data.lightData["range"]);
             light.spotAngle = float.Parse(data.lightData["spotAngle"]);
             light.cookieSize = float.Parse(data.lightData["cookieSize"]);
@@ -159,15 +157,16 @@ namespace PHIBL
             light.shadowCustomResolution = int.Parse(data.lightData["shadowCustomResolution"]);
             light.shadows = (LightShadows)(int.Parse(data.lightData["shadows"]));
 
-            if (alloyAreaLight != null) {
-                alloyAreaLight.Radius = float.Parse(data.lightData["alloy_Radius"]);
-                alloyAreaLight.Length = float.Parse(data.lightData["alloy_Length"]);
-                alloyAreaLight.Intensity = float.Parse(data.lightData["alloy_Intensity"]);
-                alloyAreaLight.Color = new Color(float.Parse(data.lightData["alloy_Color_r"]), float.Parse(data.lightData["alloy_Color_g"]), float.Parse(data.lightData["alloy_Color_b"]));
-                alloyAreaLight.HasSpecularHighlight = (int.Parse(data.lightData["alloy_HasSpecularHighlight"]) == 1);
-                alloyAreaLight.IsAnimatedByClip = (int.Parse(data.lightData["alloy_IsAnimatedByClip"]) == 1);
-            }
+            alloyAreaLight.Radius = float.Parse(data.lightData["alloy_Radius"]);
+            alloyAreaLight.Length = float.Parse(data.lightData["alloy_Length"]);
+            alloyAreaLight.Intensity = float.Parse(data.lightData["alloy_Intensity"]);
+            alloyAreaLight.Color = new Color(float.Parse(data.lightData["alloy_Color_r"]), float.Parse(data.lightData["alloy_Color_g"]), float.Parse(data.lightData["alloy_Color_b"]));
+            alloyAreaLight.HasSpecularHighlight = (int.Parse(data.lightData["alloy_HasSpecularHighlight"]) == 1);
+            alloyAreaLight.IsAnimatedByClip = (int.Parse(data.lightData["alloy_IsAnimatedByClip"]) == 1);
+
+            return light;
         }
+        */
 
         List<Light> defaultLights;
         List<Light> directionalLights = new List<Light>();

@@ -57,16 +57,68 @@ namespace PHIBL.Utilities
     public class LightsSerializationData
     {
         [SerializeField]
-        public List<LightSerializationData> lights;
+        public List<string> range = new List<string>();
+        [SerializeField]
+        public List<string> spotAngle = new List<string>();
+        [SerializeField]
+        public List<string> cookieSize = new List<string>();
+        [SerializeField]
+        public List<string> renderMode = new List<string>();
+        [SerializeField]
+        public List<string> bakedIndex = new List<string>();
+        [SerializeField]
+        public List<string> cullingMask = new List<string>();
+        [SerializeField]
+        public List<string> shadowNearPlane = new List<string>();
+        [SerializeField]
+        public List<string> shadowBias = new List<string>();
+        [SerializeField]
+        public List<string> shadowNormalBias = new List<string>();
+        [SerializeField]
+        public List<string> color_r = new List<string>();
+        [SerializeField]
+        public List<string> color_g = new List<string>();
+        [SerializeField]
+        public List<string> color_b = new List<string>();
+        [SerializeField]
+        public List<string> intensity = new List<string>();
+        [SerializeField]
+        public List<string> bounceIntensity = new List<string>();
+        [SerializeField]
+        public List<string> type = new List<string>();
+        [SerializeField]
+        public List<string> shadowStrength = new List<string>();
+        [SerializeField]
+        public List<string> shadowResolution = new List<string>();
+        [SerializeField]
+        public List<string> shadowCustomResolution = new List<string>();
+        [SerializeField]
+        public List<string> shadows = new List<string>();
+        [SerializeField]
+        public List<string> alloy_Radius = new List<string>();
+        [SerializeField]
+        public List<string> alloy_Length = new List<string>();
+        [SerializeField]
+        public List<string> alloy_Intensity = new List<string>();
+        [SerializeField]
+        public List<string> alloy_Color_r = new List<string>();
+        [SerializeField]
+        public List<string> alloy_Color_g = new List<string>();
+        [SerializeField]
+        public List<string> alloy_Color_b = new List<string>();
+        [SerializeField]
+        public List<string> alloy_HasSpecularHighlight = new List<string>();
+        [SerializeField]
+        public List<string> alloy_IsAnimatedByClip = new List<string>();
 
         public LightsSerializationData()
         {
-            lights = new List<LightSerializationData>();
         }
+
         public static void Save(string path)
         {
             var phibl = UnityEngine.Object.FindObjectOfType<PHIBL>();
-            var bin = LZ4MessagePackSerializer.Serialize(phibl.LightsSerializ(), LightsSerializationCompositeResolver.Instance);
+            byte[] bin = System.Text.Encoding.UTF8.GetBytes(JsonUtility.ToJson(phibl.LightsSerializ()));
             File.WriteAllBytes(path, bin);
         }
 
@@ -74,59 +126,39 @@ namespace PHIBL.Utilities
         {
             var phibl = UnityEngine.Object.FindObjectOfType<PHIBL>();
             var bin = File.ReadAllBytes(path);
-            var lightsSerializationData = LZ4MessagePackSerializer.Deserialize<LightsSerializationData>(bin, LightsSerializationCompositeResolver.Instance);
-            phibl.StartCoroutine(phibl.LightsDeserializ(lightsSerializationData));
-        }
-    }
-
-    [Serializable]
-    [MessagePackObject(keyAsPropertyName: true)]
-    public class LightSerializationData
-    {
-        [SerializeField]
-        public Dictionary<string, string> lightData;
-
-        public LightSerializationData()
-        {
+            string json = System.Text.Encoding.UTF8.GetString(bin);
+            phibl.StartCoroutine(phibl.LightsDeserializ(json));
         }
 
-        public LightSerializationData(Light light, AlloyAreaLight alloyAreaLight = null)
+        public void Serializ(Light light, AlloyAreaLight alloyAreaLight)
         {
-            lightData = new Dictionary<string, string>();
-            lightData.Add("instanceId", light.GetInstanceID().ToString());
-            lightData.Add("name", light.name);
-            lightData.Add("range", light.range.ToString());
-            lightData.Add("spotAngle", light.spotAngle.ToString());
-            lightData.Add("cookieSize", light.cookieSize.ToString());
-            lightData.Add("renderMode", ((int)(light.renderMode)).ToString());
-            lightData.Add("bakedIndex", light.bakedIndex.ToString());
-            lightData.Add("cullingMask", light.cullingMask.ToString());
-            lightData.Add("shadowNearPlane", light.shadowNearPlane.ToString());
-            lightData.Add("shadowBias", light.shadowBias.ToString());
-            lightData.Add("shadowNormalBias", light.shadowNormalBias.ToString());
-            lightData.Add("color_r", light.color.r.ToString());
-            lightData.Add("color_g", light.color.g.ToString());
-            lightData.Add("color_b", light.color.b.ToString());
-            lightData.Add("color_a", light.color.a.ToString());
-            lightData.Add("intensity", light.intensity.ToString());
-            lightData.Add("bounceIntensity", light.bounceIntensity.ToString());
-            lightData.Add("type", ((int)(light.type)).ToString());
-            lightData.Add("shadowStrength", light.shadowStrength.ToString());
-            lightData.Add("shadowResolution", ((int)(light.shadowResolution)).ToString());
-            lightData.Add("shadowCustomResolution", light.shadowCustomResolution.ToString());
-            lightData.Add("shadows", ((int)(light.shadows)).ToString());
-            if (alloyAreaLight != null)
-            {
-                lightData.Add("alloy_Radius", alloyAreaLight.Radius.ToString());
-                lightData.Add("alloy_Length", alloyAreaLight.Length.ToString());
-                lightData.Add("alloy_Intensity", alloyAreaLight.Intensity.ToString());
-                lightData.Add("alloy_Color_r", alloyAreaLight.Color.r.ToString());
-                lightData.Add("alloy_Color_g", alloyAreaLight.Color.g.ToString());
-                lightData.Add("alloy_Color_b", alloyAreaLight.Color.b.ToString());
-                lightData.Add("alloy_Color_a", alloyAreaLight.Color.a.ToString());
-                lightData.Add("alloy_HasSpecularHighlight", alloyAreaLight.HasSpecularHighlight.ToString());
-                lightData.Add("alloy_IsAnimatedByClip", alloyAreaLight.IsAnimatedByClip.ToString());
-            }
+            range.Add(light.range.ToString());
+            spotAngle.Add(light.spotAngle.ToString());
+            cookieSize.Add(light.cookieSize.ToString());
+            renderMode.Add(((int)(light.renderMode)).ToString());
+            bakedIndex.Add(light.bakedIndex.ToString());
+            cullingMask.Add(light.cullingMask.ToString());
+            shadowNearPlane.Add(light.shadowNearPlane.ToString());
+            shadowBias.Add(light.shadowBias.ToString());
+            shadowNormalBias.Add(light.shadowNormalBias.ToString());
+            color_r.Add(light.color.r.ToString());
+            color_g.Add(light.color.g.ToString());
+            color_b.Add(light.color.b.ToString());
+            intensity.Add(light.intensity.ToString());
+            bounceIntensity.Add(light.bounceIntensity.ToString());
+            type.Add(((int)(light.type)).ToString());
+            shadowStrength.Add(light.shadowStrength.ToString());
+            shadowResolution.Add(((int)(light.shadowResolution)).ToString());
+            shadowCustomResolution.Add(light.shadowCustomResolution.ToString());
+            shadows.Add(((int)(light.shadows)).ToString());
+            alloy_Radius.Add(alloyAreaLight.Radius.ToString());
+            alloy_Length.Add(alloyAreaLight.Length.ToString());
+            alloy_Intensity.Add(alloyAreaLight.Intensity.ToString());
+            alloy_Color_r.Add(alloyAreaLight.Color.r.ToString());
+            alloy_Color_g.Add(alloyAreaLight.Color.g.ToString());
+            alloy_Color_b.Add(alloyAreaLight.Color.b.ToString());
+            alloy_HasSpecularHighlight.Add(Convert.ToInt32(alloyAreaLight.HasSpecularHighlight).ToString());
+            alloy_IsAnimatedByClip.Add(Convert.ToInt32(alloyAreaLight.IsAnimatedByClip).ToString());
         }
     }
 }
