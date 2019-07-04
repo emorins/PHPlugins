@@ -115,9 +115,7 @@ namespace PHIBL
                     if (kvp.Value is OCILight)
                     {
                         OCILight value = kvp.Value as OCILight;
-                        value.light.intensity = 10.0f;
-                        value.lightInfo.intensity = 10.0f;
-                        value.light.GetComponent<AlloyAreaLight>().Intensity = 10.0f;
+                        lightsSerializationData.Serializ(value.light, value);
                     }
                 }
             }
@@ -125,7 +123,7 @@ namespace PHIBL
             return lightsSerializationData;
         }
 
-        public IEnumerator LightsDeserializ(string json)
+        public IEnumerator LightsDeserializ(LightsSerializationData lightsSerializationData)
         {
             yield return new WaitForSeconds(1f);
             var scene = Singleton<Studio.Scene>.Instance;
@@ -134,21 +132,40 @@ namespace PHIBL
                 yield return new WaitForEndOfFrame();
             }
 
-            LightsSerializationData lightsSerializationData = JsonUtility.FromJson<LightsSerializationData>(json);
-
             Light[] allLights = UnityEngine.Object.FindObjectsOfType<Light>();
+            Dictionary<TreeNodeObject, ObjectCtrlInfo> dicInfo = Singleton<Studio.Studio>.Instance.dicInfo;
 
             for (int i = 0; i < lightsSerializationData.name.Count(); i++)
             {
-                for (int j = 0; j < allLights.Length; j++)
+                if (int.Parse(lightsSerializationData.hasStudio[i]) == 1)
                 {
-                    if (lightsSerializationData.name[i] == allLights[j].name)
+                    foreach (KeyValuePair<TreeNodeObject, ObjectCtrlInfo> kvp in dicInfo)
                     {
-                        lightsSerializationData.Deserializ(ref allLights[j], i);
+                        if (kvp.Value != null && kvp.Key != null)
+                        {
+                            if (kvp.Value is OCILight)
+                            {
+                                OCILight value = kvp.Value as OCILight;
+                                if (lightsSerializationData.name[i] == value.light.name)
+                                {
+                                    lightsSerializationData.Deserializ(value.light, i, value);
+                                }
+                            }
+                        }
                     }
                 }
-
+                else
+                {
+                    for (int j = 0; j < allLights.Length; j++)
+                    {
+                        if (lightsSerializationData.name[i] == allLights[j].name)
+                        {
+                            lightsSerializationData.Deserializ(allLights[j], i);
+                        }
+                    }
+                }
             }
+            LightsInit();
         }
 
         List<Light> defaultLights;
