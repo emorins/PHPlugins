@@ -13,6 +13,30 @@ namespace PHIBL.Utilities
     public class LightsSerializationData
     {
         [SerializeField]
+        public List<string> transform_localPosition = new List<string>();
+        [SerializeField]
+        public List<string> transform_eulerAngles = new List<string>();
+        [SerializeField]
+        public List<string> transform_localEulerAngles = new List<string>();
+        [SerializeField]
+        public List<string> transform_right = new List<string>();
+        [SerializeField]
+        public List<string> transform_up = new List<string>();
+        [SerializeField]
+        public List<string> transform_forward = new List<string>();
+        [SerializeField]
+        public List<string> transform_rotation = new List<string>();
+        [SerializeField]
+        public List<string> transform_position = new List<string>();
+        [SerializeField]
+        public List<string> transform_localRotation = new List<string>();
+        [SerializeField]
+        public List<string> transform_localScale = new List<string>();
+        [SerializeField]
+        public List<string> enabled = new List<string>();
+        [SerializeField]
+        public List<string> instanceId = new List<string>();
+        [SerializeField]
         public List<string> name = new List<string>();
         [SerializeField]
         public List<string> range = new List<string>();
@@ -52,6 +76,29 @@ namespace PHIBL.Utilities
         public List<string> shadowCustomResolution = new List<string>();
         [SerializeField]
         public List<string> shadows = new List<string>();
+
+        [SerializeField]
+        public List<string> alloy_transform_localPosition = new List<string>();
+        [SerializeField]
+        public List<string> alloy_transform_eulerAngles = new List<string>();
+        [SerializeField]
+        public List<string> alloy_transform_localEulerAngles = new List<string>();
+        [SerializeField]
+        public List<string> alloy_transform_right = new List<string>();
+        [SerializeField]
+        public List<string> alloy_transform_up = new List<string>();
+        [SerializeField]
+        public List<string> alloy_transform_forward = new List<string>();
+        [SerializeField]
+        public List<string> alloy_transform_rotation = new List<string>();
+        [SerializeField]
+        public List<string> alloy_transform_position = new List<string>();
+        [SerializeField]
+        public List<string> alloy_transform_localRotation = new List<string>();
+        [SerializeField]
+        public List<string> alloy_transform_localScale = new List<string>();
+        [SerializeField]
+        public List<string> alloy_enabled = new List<string>();
         [SerializeField]
         public List<string> alloy_Radius = new List<string>();
         [SerializeField]
@@ -88,8 +135,42 @@ namespace PHIBL.Utilities
             phibl.StartCoroutine(phibl.LightsDeserializ(json));
         }
 
-        public void Serializ(Light light, AlloyAreaLight alloyAreaLight)
+        public static string ToString(Vector3 vector)
         {
+            return vector.x.ToString() + "," + vector.y.ToString() + "," + vector.z.ToString();
+        }
+
+        public static string ToString(Quaternion quaternion)
+        {
+            return quaternion.x.ToString() + "," + quaternion.y.ToString() + "," + quaternion.z.ToString() + "," + quaternion.w.ToString();
+        }
+
+        public static Vector3 ToVector3(string str)
+        {
+            string[] arr = str.Split(',');
+            return new Vector3(x: float.Parse(arr[0]), y: float.Parse(arr[1]), z: float.Parse(arr[2]));
+        }
+
+        public static Quaternion ToQuaternion(string str)
+        {
+            string[] arr = str.Split(',');
+            return new Quaternion(x: float.Parse(arr[0]), y: float.Parse(arr[1]), z: float.Parse(arr[2]), w: float.Parse(arr[3]));
+        }
+
+        public void Serializ(Light light)
+        {
+            transform_localPosition.Add(ToString(light.transform.localPosition));
+            transform_eulerAngles.Add(ToString(light.transform.eulerAngles));
+            transform_localEulerAngles.Add(ToString(light.transform.localEulerAngles));
+            transform_right.Add(ToString(light.transform.right));
+            transform_up.Add(ToString(light.transform.up));
+            transform_forward.Add(ToString(light.transform.forward));
+            transform_rotation.Add(ToString(light.transform.rotation));
+            transform_position.Add(ToString(light.transform.position));
+            transform_localRotation.Add(ToString(light.transform.localRotation));
+            transform_localScale.Add(ToString(light.transform.localScale));
+            enabled.Add(Convert.ToInt32(light.enabled).ToString());
+            instanceId.Add(light.GetInstanceID().ToString());
             name.Add(light.name);
             range.Add(light.range.ToString());
             spotAngle.Add(light.spotAngle.ToString());
@@ -110,6 +191,19 @@ namespace PHIBL.Utilities
             shadowResolution.Add(((int)(light.shadowResolution)).ToString());
             shadowCustomResolution.Add(light.shadowCustomResolution.ToString());
             shadows.Add(((int)(light.shadows)).ToString());
+
+            AlloyAreaLight alloyAreaLight = light.GetComponent<AlloyAreaLight>();
+            alloy_transform_localPosition.Add(ToString(alloyAreaLight.transform.localPosition));
+            alloy_transform_eulerAngles.Add(ToString(alloyAreaLight.transform.eulerAngles));
+            alloy_transform_localEulerAngles.Add(ToString(alloyAreaLight.transform.localEulerAngles));
+            alloy_transform_right.Add(ToString(alloyAreaLight.transform.right));
+            alloy_transform_up.Add(ToString(alloyAreaLight.transform.up));
+            alloy_transform_forward.Add(ToString(alloyAreaLight.transform.forward));
+            alloy_transform_rotation.Add(ToString(alloyAreaLight.transform.rotation));
+            alloy_transform_position.Add(ToString(alloyAreaLight.transform.position));
+            alloy_transform_localRotation.Add(ToString(alloyAreaLight.transform.localRotation));
+            alloy_transform_localScale.Add(ToString(alloyAreaLight.transform.localScale));
+            alloy_enabled.Add(Convert.ToInt32(alloyAreaLight.enabled).ToString());
             alloy_Radius.Add(alloyAreaLight.Radius.ToString());
             alloy_Length.Add(alloyAreaLight.Length.ToString());
             alloy_Intensity.Add(alloyAreaLight.Intensity.ToString());
@@ -122,8 +216,17 @@ namespace PHIBL.Utilities
 
         public void Deserializ(ref Light light, int index)
         {
-            AlloyAreaLight alloyAreaLight = light.GetComponent<AlloyAreaLight>();
-
+            light.transform.localPosition = ToVector3(transform_localPosition[index]);
+            light.transform.eulerAngles = ToVector3(transform_eulerAngles[index]);
+            light.transform.localEulerAngles = ToVector3(transform_localEulerAngles[index]);
+            light.transform.right = ToVector3(transform_right[index]);
+            light.transform.up = ToVector3(transform_up[index]);
+            light.transform.forward = ToVector3(transform_forward[index]);
+            light.transform.rotation = ToQuaternion(transform_rotation[index]);
+            light.transform.position = ToVector3(transform_position[index]);
+            light.transform.localRotation = ToQuaternion(transform_localRotation[index]);
+            light.transform.localScale = ToVector3(transform_localScale[index]);
+            light.enabled = (int.Parse(enabled[index]) == 1);
             light.name = name[index];
             light.range = float.Parse(range[index]);
             light.spotAngle = float.Parse(spotAngle[index]);
@@ -143,6 +246,18 @@ namespace PHIBL.Utilities
             light.shadowCustomResolution = int.Parse(shadowCustomResolution[index]);
             light.shadows = (LightShadows)(int.Parse(shadows[index]));
 
+            AlloyAreaLight alloyAreaLight = light.GetComponent<AlloyAreaLight>();
+            alloyAreaLight.transform.localPosition = ToVector3(alloy_transform_localPosition[index]);
+            alloyAreaLight.transform.eulerAngles = ToVector3(alloy_transform_eulerAngles[index]);
+            alloyAreaLight.transform.localEulerAngles = ToVector3(alloy_transform_localEulerAngles[index]);
+            alloyAreaLight.transform.right = ToVector3(alloy_transform_right[index]);
+            alloyAreaLight.transform.up = ToVector3(alloy_transform_up[index]);
+            alloyAreaLight.transform.forward = ToVector3(alloy_transform_forward[index]);
+            alloyAreaLight.transform.rotation = ToQuaternion(alloy_transform_rotation[index]);
+            alloyAreaLight.transform.position = ToVector3(alloy_transform_position[index]);
+            alloyAreaLight.transform.localRotation = ToQuaternion(alloy_transform_localRotation[index]);
+            alloyAreaLight.transform.localScale = ToVector3(alloy_transform_localScale[index]);
+            alloyAreaLight.enabled = (int.Parse(alloy_enabled[index]) == 1);
             alloyAreaLight.Radius = float.Parse(alloy_Radius[index]);
             alloyAreaLight.Length = float.Parse(alloy_Length[index]);
             alloyAreaLight.Intensity = float.Parse(alloy_Intensity[index]);

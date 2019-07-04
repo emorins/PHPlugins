@@ -11,8 +11,7 @@ using PHIBL.Utilities;
 using UnityEngine.Rendering;
 using static PHIBL.DeferredShadingUtils;
 using static PHIBL.UIUtils;
-using MessagePack;
-using MessagePack.Formatters;
+using Studio;
 
 namespace PHIBL
 {
@@ -105,9 +104,24 @@ namespace PHIBL
             Light[] allLights = UnityEngine.Object.FindObjectsOfType<Light>();
             foreach (Light light in allLights)
             {
-                AlloyAreaLight alloyAreaLight = light.GetComponent<AlloyAreaLight>();
-                lightsSerializationData.Serializ(light, alloyAreaLight);
+                lightsSerializationData.Serializ(light);
             }
+
+            Dictionary<TreeNodeObject, ObjectCtrlInfo> dicInfo = Singleton<Studio.Studio>.Instance.dicInfo;
+            foreach (KeyValuePair<TreeNodeObject, ObjectCtrlInfo> kvp in dicInfo)
+            {
+                if (kvp.Value != null && kvp.Key != null)
+                {
+                    if (kvp.Value is OCILight)
+                    {
+                        OCILight value = kvp.Value as OCILight;
+                        value.light.intensity = 10.0f;
+                        value.lightInfo.intensity = 10.0f;
+                        value.light.GetComponent<AlloyAreaLight>().Intensity = 10.0f;
+                    }
+                }
+            }
+
             return lightsSerializationData;
         }
 
