@@ -135,6 +135,7 @@ namespace PHIBL
             Light[] allLights = UnityEngine.Object.FindObjectsOfType<Light>();
             Dictionary<TreeNodeObject, ObjectCtrlInfo> dicInfo = Singleton<Studio.Studio>.Instance.dicInfo;
 
+            List<Light> deserialized = new List<Light>();
             for (int i = 0; i < lightsSerializationData.name.Count(); i++)
             {
                 if (int.Parse(lightsSerializationData.hasStudio[i]) == 1)
@@ -146,7 +147,8 @@ namespace PHIBL
                             if (kvp.Value is OCILight)
                             {
                                 OCILight value = kvp.Value as OCILight;
-                                if (lightsSerializationData.name[i] == value.light.name &&
+                                if (deserialized.Contains(value.light) == false && 
+                                    lightsSerializationData.name[i] == value.light.name &&
                                     (LightType)(int.Parse(lightsSerializationData.type[i])) == value.light.type &&
                                     lightsSerializationData.hierarchyPath[i] == LightsSerializationData.GetHierarchyPath(value.light) &&
                                     LightsSerializationData.ToVector3(lightsSerializationData.transform_position[i]) == value.light.transform.position &&
@@ -154,6 +156,7 @@ namespace PHIBL
                                     )
                                 {
                                     lightsSerializationData.Deserializ(value.light, i, value);
+                                    deserialized.Add(value.light);
                                 }
                             }
                         }
@@ -163,7 +166,8 @@ namespace PHIBL
                 {
                     for (int j = 0; j < allLights.Length; j++)
                     {
-                        if (lightsSerializationData.name[i] == allLights[j].name &&
+                        if (deserialized.Contains(allLights[j]) == false &&
+                            lightsSerializationData.name[i] == allLights[j].name &&
                             (LightType)(int.Parse(lightsSerializationData.type[i])) == allLights[j].type &&
                             lightsSerializationData.hierarchyPath[i] == LightsSerializationData.GetHierarchyPath(allLights[j]) &&
                             LightsSerializationData.ToVector3(lightsSerializationData.transform_position[i]) == allLights[j].transform.position &&
@@ -171,6 +175,7 @@ namespace PHIBL
                             )
                         {
                             lightsSerializationData.Deserializ(allLights[j], i);
+                            deserialized.Add(allLights[j]); 
                         }
                     }
                 }
