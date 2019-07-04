@@ -15,6 +15,8 @@ namespace PHIBL.Utilities
     {
         [SerializeField]
         public List<string> hasStudio = new List<string>();
+        [SerializeField]
+        public List<string> hierarchyPath = new List<string>();
 
         [SerializeField]
         public List<string> transform_localPosition = new List<string>();
@@ -151,6 +153,18 @@ namespace PHIBL.Utilities
             phibl.StartCoroutine(phibl.LightsDeserializ(JsonUtility.FromJson<LightsSerializationData>(json)));
         }
 
+        static public string GetHierarchyPath(Light target)
+        {
+            string path = "";
+            Transform current = target.transform;
+            while (current != null)
+            {
+                path = "/" + current.name + path;
+                current = current.parent;
+            }
+            return path;
+        }
+
         public static string ToString(Color color)
         {
             return color.r.ToString() + "," + color.g.ToString() + "," + color.b.ToString();
@@ -186,6 +200,7 @@ namespace PHIBL.Utilities
 
         public void Serializ(Light light, OCILight ocLight = null)
         {
+            hierarchyPath.Add(GetHierarchyPath(light));
             transform_localPosition.Add(ToString(light.transform.localPosition));
             transform_eulerAngles.Add(ToString(light.transform.eulerAngles));
             transform_localEulerAngles.Add(ToString(light.transform.localEulerAngles));

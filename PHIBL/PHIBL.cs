@@ -127,7 +127,7 @@ namespace PHIBL
         {
             yield return new WaitForSeconds(1f);
             var scene = Singleton<Studio.Scene>.Instance;
-            while (scene.isNowLoading)
+            while (scene.isNowLoading || IsLoading)
             {
                 yield return new WaitForEndOfFrame();
             }
@@ -146,7 +146,12 @@ namespace PHIBL
                             if (kvp.Value is OCILight)
                             {
                                 OCILight value = kvp.Value as OCILight;
-                                if (lightsSerializationData.name[i] == value.light.name)
+                                if (lightsSerializationData.name[i] == value.light.name &&
+                                    (LightType)(int.Parse(lightsSerializationData.type[i])) == value.light.type &&
+                                    lightsSerializationData.hierarchyPath[i] == LightsSerializationData.GetHierarchyPath(value.light) &&
+                                    LightsSerializationData.ToVector3(lightsSerializationData.transform_position[i]) == value.light.transform.position &&
+                                    LightsSerializationData.ToVector3(lightsSerializationData.transform_localPosition[i]) == value.light.transform.localPosition
+                                    )
                                 {
                                     lightsSerializationData.Deserializ(value.light, i, value);
                                 }
@@ -158,7 +163,12 @@ namespace PHIBL
                 {
                     for (int j = 0; j < allLights.Length; j++)
                     {
-                        if (lightsSerializationData.name[i] == allLights[j].name)
+                        if (lightsSerializationData.name[i] == allLights[j].name &&
+                            (LightType)(int.Parse(lightsSerializationData.type[i])) == allLights[j].type &&
+                            lightsSerializationData.hierarchyPath[i] == LightsSerializationData.GetHierarchyPath(allLights[j]) &&
+                            LightsSerializationData.ToVector3(lightsSerializationData.transform_position[i]) == allLights[j].transform.position &&
+                            LightsSerializationData.ToVector3(lightsSerializationData.transform_localPosition[i]) == allLights[j].transform.localPosition
+                            )
                         {
                             lightsSerializationData.Deserializ(allLights[j], i);
                         }
