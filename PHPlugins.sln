@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29020.237
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PHIBL", "PHIBL\PHIBL.csproj", "{43246ADB-7494-4ACC-AF3E-E27519DCCA95}"
 EndProject
@@ -38,6 +38,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VertexPaint", "VertexPaint\VertexPaint.csproj", "{A79740AF-7119-4012-9A8F-82C1C27CE649}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameManager (PHIBL Editor version)", "GameManager\GameManager (PHIBL Editor version).csproj", "{B3D2CEC2-E7D1-4C2C-87FC-5454EA1C4DEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightSave", "LightSave\LightSave.csproj", "{89D5B081-02C8-4AF9-AB4B-803A78FB7669}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -117,6 +119,10 @@ Global
 		{B3D2CEC2-E7D1-4C2C-87FC-5454EA1C4DEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3D2CEC2-E7D1-4C2C-87FC-5454EA1C4DEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3D2CEC2-E7D1-4C2C-87FC-5454EA1C4DEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89D5B081-02C8-4AF9-AB4B-803A78FB7669}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89D5B081-02C8-4AF9-AB4B-803A78FB7669}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89D5B081-02C8-4AF9-AB4B-803A78FB7669}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89D5B081-02C8-4AF9-AB4B-803A78FB7669}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

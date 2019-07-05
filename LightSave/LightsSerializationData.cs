@@ -7,8 +7,9 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using Studio;
+using PHIBL;
 
-namespace PHIBL.Utilities
+namespace LightSave
 {
     [Serializable]
     public class LightsSerializationData
@@ -140,17 +141,17 @@ namespace PHIBL.Utilities
 
         public static void Save(string path)
         {
-            var phibl = UnityEngine.Object.FindObjectOfType<PHIBL>();
-            byte[] bin = System.Text.Encoding.UTF8.GetBytes(JsonUtility.ToJson(phibl.LightsSerializ()));
+            var lightSave = UnityEngine.Object.FindObjectOfType<LightSave>();
+            byte[] bin = System.Text.Encoding.UTF8.GetBytes(JsonUtility.ToJson(lightSave.LightsSerializ()));
             File.WriteAllBytes(path, bin);
         }
 
         public static void Load(string path)
         {
-            var phibl = UnityEngine.Object.FindObjectOfType<PHIBL>();
+            var lightSave = UnityEngine.Object.FindObjectOfType<LightSave>();
             var bin = File.ReadAllBytes(path);
             string json = System.Text.Encoding.UTF8.GetString(bin);
-            phibl.StartCoroutine(phibl.LightsDeserializ(JsonUtility.FromJson<LightsSerializationData>(json)));
+            lightSave.LightsDeserializ(JsonUtility.FromJson<LightsSerializationData>(json));
         }
 
         static public string GetHierarchyPath(Light target)
@@ -253,7 +254,8 @@ namespace PHIBL.Utilities
                 alloy_Color.Add(ToString(alloyAreaLight.Color));
                 alloy_HasSpecularHighlight.Add(Convert.ToInt32(alloyAreaLight.HasSpecularHighlight).ToString());
                 alloy_IsAnimatedByClip.Add(Convert.ToInt32(alloyAreaLight.IsAnimatedByClip).ToString());
-            } else
+            }
+            else
             {
                 alloy_transform_localPosition.Add("");
                 alloy_transform_eulerAngles.Add("");
@@ -285,7 +287,8 @@ namespace PHIBL.Utilities
                 ocinfo_shadow.Add(Convert.ToInt32(ocLight.lightInfo.shadow).ToString());
                 ocinfo_enable.Add(Convert.ToInt32(ocLight.lightInfo.enable).ToString());
                 ocinfo_drawTarget.Add(Convert.ToInt32(ocLight.lightInfo.drawTarget).ToString());
-            } else
+            }
+            else
             {
                 hasStudio.Add(Convert.ToInt32(false).ToString());
 
