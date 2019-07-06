@@ -16,7 +16,6 @@ namespace LightSave
     public class LightsSerializationData
     {
         public static string path;
-        public static bool loaded = false;
 
         [SerializeField]
         public List<string> hasStudio = new List<string>();
@@ -152,6 +151,14 @@ namespace LightSave
 
         public static void Load(string path)
         {
+            var scene = Singleton<Studio.Scene>.Instance;
+            while (true)
+            {
+                if (scene.addSceneName == string.Empty)
+                    break;
+                scene.UnLoad();
+            }
+
             var lightSave = UnityEngine.Object.FindObjectOfType<LightSave>();
             var bin = File.ReadAllBytes(path);
             string json = System.Text.Encoding.UTF8.GetString(bin);

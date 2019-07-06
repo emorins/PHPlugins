@@ -19,32 +19,6 @@ namespace LightSave
         {
         }
 
-        /*
-        void Update()
-        {
-            if (LightsSerializationData.loaded == false)
-            {
-                var scene = Singleton<Studio.Scene>.Instance;
-                var phibl = UnityEngine.Object.FindObjectOfType<PHIBL.PHIBL>();
-                if (LightsSerializationData.path != null && phibl != null && scene != null)
-                {
-                    Type type = phibl.GetType();
-                    FieldInfo field = type.GetField("IsLoading", BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
-                    bool IsLoading = (bool)(field.GetValue(phibl));
-
-                    if (field.GetValue(phibl) != null && scene.isNowLoading == false && IsLoading == false)
-                    {
-                        LightsSerializationData.Load(LightsSerializationData.path);
-                        LightsSerializationData.loaded = true;
-
-                        //MethodInfo method = phibl.GetType().GetMethod("LightsInit");
-                        //method.Invoke(phibl, null);
-                    }
-                }
-            }
-        }
-        */
-
         public LightsSerializationData LightsSerializ()
         {
             LightsSerializationData lightsSerializationData = new LightsSerializationData();
@@ -73,7 +47,7 @@ namespace LightSave
 
         public IEnumerator LightsDeserializ(LightsSerializationData lightsSerializationData)
         {
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(2f);
 
             var scene = Singleton<Studio.Scene>.Instance;
             var phibl = UnityEngine.Object.FindObjectOfType<PHIBL.PHIBL>();

@@ -20,8 +20,7 @@ namespace LightSave.Patch
             var newpath = _path + "_lights.extdata";
             if (File.Exists(newpath))
             {
-                //LightsSerializationData.loaded = false;
-                //LightsSerializationData.path = newpath;
+                LightsSerializationData.path = newpath;
                 LightsSerializationData.Load(newpath);
             }
         }
