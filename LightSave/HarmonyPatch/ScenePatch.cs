@@ -17,7 +17,7 @@ namespace LightSave.Patch
         [Harmony.HarmonyAfter(new string[] { "PlayHome Image Based Lighting" })]
         static void Postfix(string _path)
         {
-            var newpath = _path + "_lights.extdata";
+            var newpath = _path + ".lights_extdata";
             if (File.Exists(newpath))
             {
                 LightsSerializationData.path = newpath;
@@ -32,7 +32,7 @@ namespace LightSave.Patch
         [Harmony.HarmonyBefore(new string[] { "PlayHome Image Based Lighting" })]
         static bool Prefix(string _path, SceneInfo __instance, ref bool __result)
         {
-            LightsSerializationData.Save(_path + "_lights.extdata");
+            LightsSerializationData.Save(_path + ".lights_extdata");
             __result = true;
             return true;
         }
