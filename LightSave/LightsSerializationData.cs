@@ -8,12 +8,16 @@ using System.Collections;
 using System.Collections.Generic;
 using Studio;
 using PHIBL;
+using PHIBL.PostProcessing;
 
 namespace LightSave
 {
     [Serializable]
     public class LightsSerializationData
     {
+        public static string path;
+        public static bool loaded = false;
+
         [SerializeField]
         public List<string> hasStudio = new List<string>();
         [SerializeField]

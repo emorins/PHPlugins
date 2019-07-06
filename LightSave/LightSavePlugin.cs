@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using Utility.Xml;
 using System;
 using Harmony;
+using PHIBL;
+using PHIBL.PostProcessing;
 
 namespace LightSave
 {

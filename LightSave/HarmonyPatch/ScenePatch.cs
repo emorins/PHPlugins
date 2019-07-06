@@ -7,6 +7,7 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using PHIBL;
+using PHIBL.PostProcessing;
 
 namespace LightSave.Patch
 {
@@ -14,13 +15,14 @@ namespace LightSave.Patch
     static class SceneLoadPatch
     {
         [Harmony.HarmonyAfter(new string[] { "PlayHome Image Based Lighting" })]
-        //[HarmonyPriority(999)]
         static void Postfix(string _path)
         {
             var newpath = _path + "_lights.extdata";
             if (File.Exists(newpath))
             {
-                LightsSerializationData.Load(newpath);
+                LightsSerializationData.loaded = false;
+                LightsSerializationData.path = newpath;
+                //LightsSerializationData.Load(newpath);
             }
         }
     }

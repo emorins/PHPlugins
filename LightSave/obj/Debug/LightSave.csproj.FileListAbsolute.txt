@@ -12,7 +12,6 @@ C:\home\PHPlugins\LightSave\bin\Debug\UnityEngine.UI.dll
 C:\home\PHPlugins\LightSave\bin\Debug\PHWSManaged.dll
 C:\home\PHPlugins\LightSave\bin\Debug\ProjectHighHeel.dll
 C:\home\PHPlugins\LightSave\bin\Debug\IllusionPlugin.xml
-C:\home\PHPlugins\LightSave\obj\Debug\LightSave.csprojAssemblyReference.cache
 C:\home\PHPlugins\LightSave\obj\Debug\LightSave.csproj.CoreCompileInputs.cache
 C:\home\PHPlugins\LightSave\obj\Debug\LightSave.csproj.CopyComplete
 C:\home\PHPlugins\LightSave\obj\Debug\LightSave.dll

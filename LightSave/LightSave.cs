@@ -6,8 +6,10 @@ using System.IO;
 using IllusionPlugin;
 using System.Collections.Generic;
 using PHIBL;
+using PHIBL.PostProcessing;
 using UnityEngine.Rendering;
 using Studio;
+using System.Reflection;
 
 namespace LightSave
 {
@@ -15,6 +17,30 @@ namespace LightSave
     {
         LightSave()
         {
+        }
+
+        void Update()
+        {
+            if (LightsSerializationData.loaded == false)
+            {
+                var scene = Singleton<Studio.Scene>.Instance;
+                var phibl = UnityEngine.Object.FindObjectOfType<PHIBL.PHIBL>();
+                if (LightsSerializationData.path != null && phibl != null && scene != null)
+                {
+                    Type type = phibl.GetType();
+                    FieldInfo field = type.GetField("IsLoading", BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
+                    bool IsLoading = (bool)(field.GetValue(phibl));
+
+                    if (field.GetValue(phibl) != null && scene.isNowLoading == false && IsLoading == false)
+                    {
+                        LightsSerializationData.Load(LightsSerializationData.path);
+                        LightsSerializationData.loaded = true;
+
+                        //MethodInfo method = phibl.GetType().GetMethod("LightsInit");
+                        //method.Invoke(phibl, null);
+                    }
+                }
+            }
         }
 
         public LightsSerializationData LightsSerializ()
@@ -70,6 +96,7 @@ namespace LightSave
                                 {
                                     lightsSerializationData.Deserializ(value.light, i, value);
                                     deserialized.Add(value.light);
+                                    break;
                                 }
                             }
                         }
@@ -89,6 +116,7 @@ namespace LightSave
                         {
                             lightsSerializationData.Deserializ(allLights[j], i);
                             deserialized.Add(allLights[j]);
+                            break;
                         }
                     }
                 }
