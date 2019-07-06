@@ -155,7 +155,7 @@ namespace LightSave
             var lightSave = UnityEngine.Object.FindObjectOfType<LightSave>();
             var bin = File.ReadAllBytes(path);
             string json = System.Text.Encoding.UTF8.GetString(bin);
-            lightSave.LightsDeserializ(JsonUtility.FromJson<LightsSerializationData>(json));
+            lightSave.StartCoroutine(lightSave.LightsDeserializ(JsonUtility.FromJson<LightsSerializationData>(json)));
         }
 
         static public string GetHierarchyPath(Light target)

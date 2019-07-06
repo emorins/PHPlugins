@@ -19,6 +19,7 @@ namespace LightSave
         {
         }
 
+        /*
         void Update()
         {
             if (LightsSerializationData.loaded == false)
@@ -42,6 +43,7 @@ namespace LightSave
                 }
             }
         }
+        */
 
         public LightsSerializationData LightsSerializ()
         {
@@ -69,8 +71,22 @@ namespace LightSave
             return lightsSerializationData;
         }
 
-        public void LightsDeserializ(LightsSerializationData lightsSerializationData)
+        public IEnumerator LightsDeserializ(LightsSerializationData lightsSerializationData)
         {
+            yield return new WaitForSeconds(5f);
+
+            var scene = Singleton<Studio.Scene>.Instance;
+            var phibl = UnityEngine.Object.FindObjectOfType<PHIBL.PHIBL>();
+
+            Type type = phibl.GetType();
+            FieldInfo field = type.GetField("IsLoading", BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
+            bool IsLoading = (bool)(field.GetValue(phibl));
+
+            while (scene.isNowLoading || IsLoading)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+
             Light[] allLights = UnityEngine.Object.FindObjectsOfType<Light>();
             Dictionary<TreeNodeObject, ObjectCtrlInfo> dicInfo = Singleton<Studio.Studio>.Instance.dicInfo;
 
