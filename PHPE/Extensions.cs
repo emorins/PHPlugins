@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Vectrosity;
 
-namespace HSPE
+namespace PHPE
 {
     public static class Extensions
     {

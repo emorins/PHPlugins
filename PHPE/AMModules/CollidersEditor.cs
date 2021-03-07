@@ -9,7 +9,7 @@ using UnityEngine;
 using Vectrosity;
 using DynamicBoneColliderBase = DynamicBoneCollider;
 
-namespace HSPE.AMModules
+namespace PHPE.AMModules
 {
     public class CollidersEditor : AdvancedModeModule
     {
@@ -668,7 +668,7 @@ namespace HSPE.AMModules
 
         public void LoadFrom(CollidersEditor other)
         {
-            MainWindow._self.ExecuteDelayed(() =>
+            PHPE._self.ExecuteDelayed(() =>
             {
                 foreach (KeyValuePair<DynamicBoneColliderBase, ColliderDataBase> kvp in other._dirtyColliders)
                 {
@@ -875,7 +875,7 @@ namespace HSPE.AMModules
                     }
                     catch (Exception e)
                     {
-                        UnityEngine.Debug.LogError("HSPE: Couldn't load collider for object " + this._parent.name + " " + node.OuterXml + "\n" + e);
+                        UnityEngine.Debug.LogError("PHPE: Couldn't load collider for object " + this._parent.name + " " + node.OuterXml + "\n" + e);
                     }
                 }
             }
@@ -1101,7 +1101,7 @@ namespace HSPE.AMModules
             if (this.GizmosEnabled() == false)
                 return;
 
-            if (MainWindow._self._poseTarget == this._parent)
+            if (PHPE._self._poseTarget == this._parent)
             {
 
                 {
@@ -1141,7 +1141,7 @@ namespace HSPE.AMModules
             public static void Populate()
             {
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "colliderBaseCenter",
                         name: "Collider Center",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) =>
@@ -1162,7 +1162,7 @@ namespace HSPE.AMModules
                 );
 
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "colliderBaseDirection",
                         name: "Collider Direction",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) =>
@@ -1183,7 +1183,7 @@ namespace HSPE.AMModules
                 );
 
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "colliderBaseBound",
                         name: "Collider Bound",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) =>
@@ -1204,7 +1204,7 @@ namespace HSPE.AMModules
                 );
 
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "colliderRadius",
                         name: "Collider Radius",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) =>
@@ -1225,7 +1225,7 @@ namespace HSPE.AMModules
                 );
 
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "colliderHeight",
                         name: "Collider Height",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) =>

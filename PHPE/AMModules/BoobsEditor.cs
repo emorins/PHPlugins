@@ -11,7 +11,7 @@ using UnityEngine;
 using Vectrosity;
 using DynamicBoneColliderBase = DynamicBoneCollider;
 
-namespace HSPE.AMModules
+namespace PHPE.AMModules
 {
     public class BoobsEditor : AdvancedModeModule
     {
@@ -383,7 +383,7 @@ namespace HSPE.AMModules
 
         public void LoadFrom(BoobsEditor other)
         {
-            MainWindow._self.ExecuteDelayed(() =>
+            PHPE._self.ExecuteDelayed(() =>
             {
 
                 ChaControl charFemale = this._target.ociChar.charInfo;
@@ -518,7 +518,7 @@ namespace HSPE.AMModules
                     }
                     catch (Exception e)
                     {
-                        UnityEngine.Debug.LogError("HSPE: Couldn't load boob for character " + this._parent.name + " " + node.OuterXml + "\n" + e);
+                        UnityEngine.Debug.LogError("PHPE: Couldn't load boob for character " + this._parent.name + " " + node.OuterXml + "\n" + e);
                     }
                 }
             }
@@ -807,7 +807,7 @@ namespace HSPE.AMModules
             public static void Populate()
             {
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "leftBoobEnabled",
                         name: "Left Boob Enabled",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) =>
@@ -827,7 +827,7 @@ namespace HSPE.AMModules
                         checkIntegrity: CheckIntegrity
                         );
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "leftBoobGravity",
                         name: "Left Boob Gravity",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) => ((BoobsEditor)parameter).SetGravity(((BoobsEditor)parameter)._leftBoob, Vector3.LerpUnclamped((Vector3)leftValue, (Vector3)rightValue, factor)),
@@ -842,7 +842,7 @@ namespace HSPE.AMModules
                         checkIntegrity: CheckIntegrity
                         );
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "leftBoobForce",
                         name: "Left Boob Force",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) => ((BoobsEditor)parameter).SetForce(((BoobsEditor)parameter)._leftBoob, Vector3.LerpUnclamped((Vector3)leftValue, (Vector3)rightValue, factor)),
@@ -857,7 +857,7 @@ namespace HSPE.AMModules
                         checkIntegrity: CheckIntegrity
                 );
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "rightBoobEnabled",
                         name: "Right Boob Enabled",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) =>
@@ -877,7 +877,7 @@ namespace HSPE.AMModules
                         checkIntegrity: CheckIntegrity
                 );
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "rightBoobGravity",
                         name: "Right Boob Gravity",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) => ((BoobsEditor)parameter).SetGravity(((BoobsEditor)parameter)._rightBoob, Vector3.LerpUnclamped((Vector3)leftValue, (Vector3)rightValue, factor)),
@@ -892,7 +892,7 @@ namespace HSPE.AMModules
                         checkIntegrity: CheckIntegrity
                 );
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "rightBoobForce",
                         name: "Right Boob Force",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) => ((BoobsEditor)parameter).SetForce(((BoobsEditor)parameter)._rightBoob, Vector3.LerpUnclamped((Vector3)leftValue, (Vector3)rightValue, factor)),

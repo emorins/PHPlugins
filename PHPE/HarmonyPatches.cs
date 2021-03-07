@@ -9,7 +9,7 @@ using Harmony;
 using SEXY;
 using Studio;
 
-namespace HSPE
+namespace PHPE
 {
     [HarmonyPatch(typeof(Studio.Studio), "Duplicate")]
     internal class Studio_Duplicate_Patches
@@ -25,7 +25,7 @@ namespace HSPE
                 if (__instance.dicObjectCtrl.TryGetValue(pair.Key, out destination) == false)
                     continue;
                 if (source is OCIChar && destination is OCIChar || source is OCIItem && destination is OCIItem)
-                    MainWindow._self.OnDuplicate(source, destination);
+                    PHPE._self.OnDuplicate(source, destination);
             }
         }
     }

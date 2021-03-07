@@ -1,4 +1,4 @@
-﻿namespace HSPE
+﻿namespace PHPE
 {
     public struct EditableValue<T> where T : struct
     {

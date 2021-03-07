@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace HSPE
+namespace PHPE
 {
     public class CameraEventsDispatcher : MonoBehaviour
     {

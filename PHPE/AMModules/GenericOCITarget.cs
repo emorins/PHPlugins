@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Studio;
 using UnityEngine;
 
-namespace HSPE.AMModules
+namespace PHPE.AMModules
 {
     public class GenericOCITarget
     {

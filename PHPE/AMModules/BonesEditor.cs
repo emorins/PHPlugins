@@ -7,7 +7,7 @@ using ToolBox.Extensions;
 using UnityEngine;
 using Vectrosity;
 
-namespace HSPE.AMModules
+namespace PHPE.AMModules
 {
     public class BonesEditor : AdvancedModeModule
     {
@@ -327,7 +327,7 @@ namespace HSPE.AMModules
             GUI.color = co;
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
-            GUILayout.BeginVertical(GUI.skin.box, GUILayout.MinWidth(350f * ((MainWindow._self._advancedModeRect.width / 650f - 1f) / 2.7f + 1f)));
+            GUILayout.BeginVertical(GUI.skin.box, GUILayout.MinWidth(350f * ((PHPE._self._advancedModeRect.width / 650f - 1f) / 2.7f + 1f)));
             {
                 OCIChar.BoneInfo fkBoneInfo = null;
                 if (this._boneTarget != null && this._target.fkEnabled)
@@ -941,7 +941,7 @@ namespace HSPE.AMModules
 
         public void LoadFrom(BonesEditor other)
         {
-            MainWindow._self.ExecuteDelayed(() =>
+            PHPE._self.ExecuteDelayed(() =>
             {
                 foreach (GameObject openedBone in other._openedBones)
                 {
@@ -1060,7 +1060,7 @@ namespace HSPE.AMModules
                     }
                     catch (Exception e)
                     {
-                        UnityEngine.Debug.LogError("HSPE: Couldn't load bones for object " + this._parent.name + " " + node.OuterXml + "\n" + e);
+                        UnityEngine.Debug.LogError("PHPE: Couldn't load bones for object " + this._parent.name + " " + node.OuterXml + "\n" + e);
                     }
                 }
             }
@@ -1422,7 +1422,7 @@ namespace HSPE.AMModules
             public static void Populate()
             {
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "bonePos",
                         name: "Bone Position",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) =>
@@ -1442,7 +1442,7 @@ namespace HSPE.AMModules
                         getFinalName: (name, oci, parameter) => $"B Position ({((HashedPair<BonesEditor, Transform>)parameter).value.name})"
                 );
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "boneRot",
                         name: "Bone Rotation",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) =>
@@ -1462,7 +1462,7 @@ namespace HSPE.AMModules
                         getFinalName: (name, oci, parameter) => $"B Rotation ({((HashedPair<BonesEditor, Transform>)parameter).value.name})"
                 );
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "boneScale",
                         name: "Bone Scale",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) =>

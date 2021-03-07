@@ -13,7 +13,7 @@ using Vectrosity;
 using SEXY;
 using DynamicBoneColliderBase = DynamicBoneCollider;
 
-namespace HSPE.AMModules
+namespace PHPE.AMModules
 {
     public class DynamicBonesEditor : AdvancedModeModule
     {
@@ -332,8 +332,8 @@ namespace HSPE.AMModules
             }
 
             this.RefreshDynamicBoneList();
-            MainWindow._self.ExecuteDelayed(this.RefreshDynamicBoneList);
-            MainWindow._self.ExecuteDelayed(this.RefreshDynamicBoneList, 3);
+            PHPE._self.ExecuteDelayed(this.RefreshDynamicBoneList);
+            PHPE._self.ExecuteDelayed(this.RefreshDynamicBoneList, 3);
             this._incIndex = -3;
         }
 
@@ -448,15 +448,15 @@ namespace HSPE.AMModules
         public override void OnCharacterReplaced()
         {
             this.RefreshDynamicBoneList();
-            MainWindow._self.ExecuteDelayed(this.RefreshDynamicBoneList);
-            MainWindow._self.ExecuteDelayed(this.RefreshDynamicBoneList, 2);
+            PHPE._self.ExecuteDelayed(this.RefreshDynamicBoneList);
+            PHPE._self.ExecuteDelayed(this.RefreshDynamicBoneList, 2);
         }
 
         public override void OnLoadClothesFile()
         {
             this.RefreshDynamicBoneList();
-            MainWindow._self.ExecuteDelayed(this.RefreshDynamicBoneList);
-            MainWindow._self.ExecuteDelayed(this.RefreshDynamicBoneList, 2);
+            PHPE._self.ExecuteDelayed(this.RefreshDynamicBoneList);
+            PHPE._self.ExecuteDelayed(this.RefreshDynamicBoneList, 2);
         }
 
 
@@ -464,14 +464,14 @@ namespace HSPE.AMModules
 
         {
             this.RefreshDynamicBoneList();
-            MainWindow._self.ExecuteDelayed(this.RefreshDynamicBoneList);
-            MainWindow._self.ExecuteDelayed(this.RefreshDynamicBoneList, 2);
+            PHPE._self.ExecuteDelayed(this.RefreshDynamicBoneList);
+            PHPE._self.ExecuteDelayed(this.RefreshDynamicBoneList, 2);
         }
 
 
         //public override void OnParentage(TreeNodeObject parent, TreeNodeObject child)
         //{
-        //    MainWindow._self.ExecuteDelayed(this.RefreshDynamicBoneList, 10);
+        //    PHPE._self.ExecuteDelayed(this.RefreshDynamicBoneList, 10);
         //}
 
         public override void DrawAdvancedModeChanged()
@@ -958,7 +958,7 @@ namespace HSPE.AMModules
 
         public void LoadFrom(DynamicBonesEditor other)
         {
-            MainWindow._self.ExecuteDelayed(() =>
+            PHPE._self.ExecuteDelayed(() =>
             {
                 foreach (KeyValuePair<DynamicBone, DynamicBoneData> kvp in other._dirtyDynamicBones)
                 {
@@ -1090,7 +1090,7 @@ namespace HSPE.AMModules
                     }
                     catch (Exception e)
                     {
-                        UnityEngine.Debug.LogError("HSPE: Couldn't load dynamic bone for object " + this._parent.name + " " + node.OuterXml + "\n" + e);
+                        UnityEngine.Debug.LogError("PHPE: Couldn't load dynamic bone for object " + this._parent.name + " " + node.OuterXml + "\n" + e);
                     }
                 }
             }
@@ -1558,7 +1558,7 @@ namespace HSPE.AMModules
             public static void Populate()
             {
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "dynamicBoneEnabled",
                         name: "DB Enabled",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) =>
@@ -1583,7 +1583,7 @@ namespace HSPE.AMModules
                         getFinalName: (name, oci, parameter) => $"DB Enabled ({((Parameter)parameter).dynamicBone.m_Root.name})"
                 );
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "dynamicBoneGravity",
                         name: "DB Gravity",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) =>
@@ -1608,7 +1608,7 @@ namespace HSPE.AMModules
                         getFinalName: (name, oci, parameter) => $"DB Gravity ({((Parameter)parameter).dynamicBone.m_Root.name})"
                 );
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "dynamicBoneForce",
                         name: "DB Force",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) =>
@@ -1633,7 +1633,7 @@ namespace HSPE.AMModules
                         getFinalName: (name, oci, parameter) => $"DB Force ({((Parameter)parameter).dynamicBone.m_Root.name})"
                 );
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "dynamicBoneFreezeAxis",
                         name: "DB FreezeAxis",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) =>
@@ -1658,7 +1658,7 @@ namespace HSPE.AMModules
                         getFinalName: (name, oci, parameter) => $"DB FreezeAxis ({((Parameter)parameter).dynamicBone.m_Root.name})"
                 );
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "dynamicBoneWeight",
                         name: "DB Weight",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) =>
@@ -1683,7 +1683,7 @@ namespace HSPE.AMModules
                         getFinalName: (name, oci, parameter) => $"DB Weight ({((Parameter)parameter).dynamicBone.m_Root.name})"
                 );
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "dynamicBoneDamping",
                         name: "DB Damping",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) =>
@@ -1708,7 +1708,7 @@ namespace HSPE.AMModules
                         getFinalName: (name, oci, parameter) => $"DB Damping ({((Parameter)parameter).dynamicBone.m_Root.name})"
                 );
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "dynamicBoneElasticity",
                         name: "DB Elasticity",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) =>
@@ -1733,7 +1733,7 @@ namespace HSPE.AMModules
                         getFinalName: (name, oci, parameter) => $"DB Elasticity ({((Parameter)parameter).dynamicBone.m_Root.name})"
                 );
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "dynamicBoneStiffness",
                         name: "DB Stiffness",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) =>
@@ -1758,7 +1758,7 @@ namespace HSPE.AMModules
                         getFinalName: (name, oci, parameter) => $"DB Stiffness ({((Parameter)parameter).dynamicBone.m_Root.name})"
                 );
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "dynamicBoneInertia",
                         name: "DB Inertia",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) =>
@@ -1783,7 +1783,7 @@ namespace HSPE.AMModules
                         getFinalName: (name, oci, parameter) => $"DB Inertia ({((Parameter)parameter).dynamicBone.m_Root.name})"
                 );
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "dynamicBoneRadius",
                         name: "DB Radius",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) =>

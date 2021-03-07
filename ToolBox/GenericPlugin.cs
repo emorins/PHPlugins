@@ -1,7 +1,9 @@
-﻿using IllusionInjector;
+﻿using IllusionPlugin;
+using IllusionInjector;
 using System;
 using UnityEngine;
 using System.Reflection;
+using Harmony;
 
 namespace ToolBox
 {
@@ -28,6 +30,7 @@ namespace ToolBox
         public void OnApplicationStart()
         {
             this.Awake();
+            HarmonyInstance.Create(Name).PatchAll(Assembly.GetExecutingAssembly());
         }
 
         public void OnApplicationQuit()

@@ -2,12 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
-using HSPE.AMModules;
+using PHPE.AMModules;
 using Studio;
 using ToolBox.Extensions;
 using UnityEngine;
 
-namespace HSPE
+namespace PHPE
 {
     public class PoseController : MonoBehaviour
     {
@@ -67,7 +67,7 @@ namespace HSPE
             if (_onPreRenderCallbackAdded == false)
             {
                 _onPreRenderCallbackAdded = true;
-                MainWindow._self._cameraEventsDispatcher.onPreRender += UpdateGizmosIf;
+                PHPE._self._cameraEventsDispatcher.onPreRender += UpdateGizmosIf;
             }
 
             _poseControllers.Add(this);
@@ -123,7 +123,7 @@ namespace HSPE
 
         private void OnGUI()
         {
-            if (_drawAdvancedMode && MainWindow._self._poseTarget == this)
+            if (_drawAdvancedMode && PHPE._self._poseTarget == this)
             {
                 if (this._blendShapesEditor._isEnabled)
                     this._blendShapesEditor.OnGUI();
@@ -132,9 +132,9 @@ namespace HSPE
 
         private static void UpdateGizmosIf()
         {
-            if (MainWindow._self._poseTarget == null)
+            if (PHPE._self._poseTarget == null)
                 return;
-            MainWindow._self._poseTarget.UpdateGizmos();
+            PHPE._self._poseTarget.UpdateGizmos();
         }
 
         protected virtual void UpdateGizmos()
@@ -349,7 +349,7 @@ namespace HSPE
 
         public void ScheduleLoad(XmlNode node, Action<bool> onLoadEnd)
         {
-            MainWindow._self.StartCoroutine(this.LoadDefaultVersion_Routine(node, onLoadEnd));
+            PHPE._self.StartCoroutine(this.LoadDefaultVersion_Routine(node, onLoadEnd));
         }
 
         public virtual void SaveXml(XmlTextWriter xmlWriter)

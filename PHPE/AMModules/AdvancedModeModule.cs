@@ -4,7 +4,7 @@ using Studio;
 using UnityEngine;
 using SEXY;
 
-namespace HSPE.AMModules
+namespace PHPE.AMModules
 {
     public abstract class AdvancedModeModule
     {

@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Xml;
 using Harmony;
-using HSPE.AMModules;
+using PHPE.AMModules;
 using RootMotion.FinalIK;
 using Studio;
 using ToolBox;
@@ -22,12 +22,12 @@ using SEXY;
 using Input = UnityEngine.Input;
 using Path = System.IO.Path;
 
-namespace HSPE
+namespace PHPE
 {
-    public class MainWindow : MonoBehaviour
+    public partial class PHPE : MonoBehaviour
     {
         #region Public Static Variables
-        internal static MainWindow _self;
+        internal static PHPE _self;
         #endregion
 
         #region Private Types
@@ -133,7 +133,7 @@ namespace HSPE
 
             this._assemblyLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-            string path = Path.Combine(Path.Combine(this._assemblyLocation, HSPE._name), _config);
+            string path = Path.Combine(Path.Combine(this._assemblyLocation, PHPEPlugin._name), _config);
             if (File.Exists(path))
             {
                 XmlDocument doc = new XmlDocument();
@@ -296,7 +296,7 @@ namespace HSPE
 
         protected virtual void OnDestroy()
         {
-            string folder = Path.Combine(this._assemblyLocation, HSPE._name);
+            string folder = Path.Combine(this._assemblyLocation, PHPEPlugin._name);
             if (Directory.Exists(folder) == false)
                 Directory.CreateDirectory(folder);
             string path = Path.Combine(folder, _config);
@@ -306,7 +306,7 @@ namespace HSPE
                 {
                     xmlWriter.Formatting = Formatting.Indented;
                     xmlWriter.WriteStartElement("root");
-                    xmlWriter.WriteAttributeString("version", HSPE._versionNum.ToString());
+                    xmlWriter.WriteAttributeString("version", PHPEPlugin._versionNum.ToString());
                     xmlWriter.WriteStartElement("mainWindowSize");
                     xmlWriter.WriteAttributeString("value", XmlConvert.ToString(this._mainWindowSize));
                     xmlWriter.WriteEndElement();
@@ -385,7 +385,7 @@ namespace HSPE
         private void SpawnGUI()
         {
             UIUtility.Init();
-            AssetBundle bundle = AssetBundle.LoadFromMemory(Assembly.GetExecutingAssembly().GetResource("HSPE.Resources.HSPEResources.unity3d"));
+            AssetBundle bundle = AssetBundle.LoadFromMemory(Assembly.GetExecutingAssembly().GetResource("PHPE.Resources.HSPEResources.unity3d"));
             Texture2D texture = bundle.LoadAsset<Texture2D>("Icon");
             this.vectorEndCap = bundle.LoadAsset<Texture2D>("VectorEndCap");
             this.vectorMiddle = bundle.LoadAsset<Texture2D>("VectorMiddle");
@@ -407,7 +407,7 @@ namespace HSPE
 
                 RectTransform original = (RectTransform)children.First();
                 Button hspeButton = Instantiate(original.gameObject).GetComponent<Button>();
-                hspeButton.name = "Button HSPE";
+                hspeButton.name = "Button PHPE";
                 hspeButton.interactable = true;
                 hspeButton.transform.SetParent(original.parent, true);
                 hspeButton.transform.localScale = original.localScale;
@@ -1408,7 +1408,7 @@ namespace HSPE
         private void OnSceneSave(string scenePath, XmlTextWriter xmlWriter)
         {
             xmlWriter.WriteStartElement("root");
-            xmlWriter.WriteAttributeString("version", HSPE._versionNum);
+            xmlWriter.WriteAttributeString("version", PHPEPlugin._versionNum);
             SortedDictionary<int, ObjectCtrlInfo> dic = new SortedDictionary<int, ObjectCtrlInfo>(Studio.Studio.Instance.dicObjectCtrl);
             foreach (KeyValuePair<int, ObjectCtrlInfo> kvp in dic)
             {

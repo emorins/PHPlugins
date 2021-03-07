@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 using Harmony;
-using HSPE.AMModules;
+using PHPE.AMModules;
 using RootMotion.FinalIK;
 using Studio;
 using ToolBox.Extensions;
 using UnityEngine;
 using SEXY;
 
-namespace HSPE
+namespace PHPE
 {
     public class CharaPoseController : PoseController
     {
@@ -222,9 +222,9 @@ namespace HSPE
             //OCIChar_SetCoordinateInfo_Patches.onSetCoordinateInfo += this.OnCoordinateReplaced;
 
 
-            this.crotchJointCorrection = MainWindow._self.crotchCorrectionByDefault;
-            this.leftFootJointCorrection = MainWindow._self.anklesCorrectionByDefault;
-            this.rightFootJointCorrection = MainWindow._self.anklesCorrectionByDefault;
+            this.crotchJointCorrection = PHPE._self.crotchCorrectionByDefault;
+            this.leftFootJointCorrection = PHPE._self.anklesCorrectionByDefault;
+            this.rightFootJointCorrection = PHPE._self.anklesCorrectionByDefault;
         }
 
         protected override void Start()

@@ -17,10 +17,10 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using IllusionPlugin;
 using SEXY;
-using InstanceDict = System.Collections.Generic.Dictionary<Human, HSPE.AMModules.BlendShapesEditor>;
-using InstancePair = System.Collections.Generic.KeyValuePair<Human, HSPE.AMModules.BlendShapesEditor>;
+using InstanceDict = System.Collections.Generic.Dictionary<Human, PHPE.AMModules.BlendShapesEditor>;
+using InstancePair = System.Collections.Generic.KeyValuePair<Human, PHPE.AMModules.BlendShapesEditor>;
 
-namespace HSPE.AMModules
+namespace PHPE.AMModules
 {
     public class BlendShapesEditor : AdvancedModeModule
     {
@@ -138,7 +138,7 @@ namespace HSPE.AMModules
             _maleSeparators.Add(14, "Mouth");
             _femaleEyesComponentsCount = 58;
             _maleEyesComponentsCount = 14;
-            _presetsPath = Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), HSPE._name), "BlendShapesPresets");
+            _presetsPath = Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), PHPEPlugin._name), "BlendShapesPresets");
         }
 
         public BlendShapesEditor(PoseController parent, GenericOCITarget target) : base(parent)
@@ -146,7 +146,7 @@ namespace HSPE.AMModules
             this._parent.onLateUpdate += this.LateUpdate;
             this._parent.onDisable += this.OnDisable;
             this._target = target;
-            MainWindow._self.ExecuteDelayed(() =>
+            PHPE._self.ExecuteDelayed(() =>
             {
                 this.RefreshSkinnedMeshRendererList();
                 if (this._target.type == GenericOCITarget.Type.Character)
@@ -183,9 +183,9 @@ namespace HSPE.AMModules
         {
             if (this._showSaveLoadWindow == false)
                 return;
-            Rect windowRect = Rect.MinMaxRect(MainWindow._self._advancedModeRect.xMin - 180, MainWindow._self._advancedModeRect.yMin, MainWindow._self._advancedModeRect.xMin, MainWindow._self._advancedModeRect.yMax);
+            Rect windowRect = Rect.MinMaxRect(PHPE._self._advancedModeRect.xMin - 180, PHPE._self._advancedModeRect.yMin, PHPE._self._advancedModeRect.xMin, PHPE._self._advancedModeRect.yMax);
             IMGUIExtensions.DrawBackground(windowRect);
-            GUILayout.Window(MainWindow._uniqueId + 1, windowRect, this.SaveLoadWindow, "Presets");
+            GUILayout.Window(PHPE._uniqueId + 1, windowRect, this.SaveLoadWindow, "Presets");
         }
 
         private void OnDisable()
@@ -236,7 +236,7 @@ namespace HSPE.AMModules
             this._links.Clear();
 
             this.RefreshSkinnedMeshRendererList();
-            MainWindow._self.ExecuteDelayed(() =>
+            PHPE._self.ExecuteDelayed(() =>
             {
                 this.RefreshSkinnedMeshRendererList();
                 this.Init();
@@ -247,13 +247,13 @@ namespace HSPE.AMModules
         public override void OnLoadClothesFile()
         {
             this.RefreshSkinnedMeshRendererList();
-            MainWindow._self.ExecuteDelayed(this.RefreshSkinnedMeshRendererList);
+            PHPE._self.ExecuteDelayed(this.RefreshSkinnedMeshRendererList);
         }
         //public override void OnCoordinateReplaced(CharDefine.CoordinateType coordinateType, bool force);
         public override void OnParentage(TreeNodeObject parent, TreeNodeObject child)
         {
             this.RefreshSkinnedMeshRendererList();
-            MainWindow._self.ExecuteDelayed(this.RefreshSkinnedMeshRendererList);
+            PHPE._self.ExecuteDelayed(this.RefreshSkinnedMeshRendererList);
         }
 
         public override void GUILogic()
@@ -498,7 +498,7 @@ namespace HSPE.AMModules
 
         public void LoadFrom(BlendShapesEditor other)
         {
-            MainWindow._self.ExecuteDelayed(() =>
+            PHPE._self.ExecuteDelayed(() =>
             {
                 foreach (KeyValuePair<SkinnedMeshRenderer, SkinnedMeshRendererData> kvp in other._dirtySkinnedMeshRenderers)
                 {
@@ -595,7 +595,7 @@ namespace HSPE.AMModules
                     }
                     catch (Exception e)
                     {
-                        UnityEngine.Debug.LogError("HSPE: Couldn't load blendshape for object " + this._parent.name + " " + node.OuterXml + "\n" + e);
+                        UnityEngine.Debug.LogError("PHPE: Couldn't load blendshape for object " + this._parent.name + " " + node.OuterXml + "\n" + e);
                     }
                 }
             }
@@ -626,7 +626,7 @@ namespace HSPE.AMModules
                     }
                     catch (Exception e)
                     {
-                        UnityEngine.Debug.LogError("HSPE: Couldn't load blendshape for object " + this._parent.name + " " + pair.Key.OuterXml + "\n" + e);
+                        UnityEngine.Debug.LogError("PHPE: Couldn't load blendshape for object " + this._parent.name + " " + pair.Key.OuterXml + "\n" + e);
                     }
                 }
                 this._secondPassLoadingNodes.Clear();
@@ -1011,7 +1011,7 @@ namespace HSPE.AMModules
             public static void Populate()
             {
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "lastBlendShape",
                         name: "BlendShape (Last Modified)",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) =>
@@ -1064,7 +1064,7 @@ namespace HSPE.AMModules
                         });
 
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "groupBlendShape",
                         name: "BlendShape (Group)",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) =>
@@ -1098,7 +1098,7 @@ namespace HSPE.AMModules
                             return $"BS ({skinnedMeshName})";
                         });
                 ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                        owner: HSPE._name,
+                        owner: PHPEPlugin._name,
                         id: "groupBlendShapeLink",
                         name: "BlendShape (Group, Link)",
                         interpolateBefore: (oci, parameter, leftValue, rightValue, factor) =>
@@ -1150,7 +1150,7 @@ namespace HSPE.AMModules
 
                 //TODO maybe do that, or maybe not, idk
                 //ToolBox.TimelineCompatibility.AddInterpolableModelDynamic(
-                //        owner: HSPE._name,
+                //        owner: PHPE._name,
                 //        id: "everythingBlendShape",
                 //        name: "BlendShape (Everything)",
                 //        interpolateBefore: (oci, parameter, leftValue, rightValue, factor) =>
