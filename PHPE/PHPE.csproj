@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4AD74EFF-37B9-4BEA-A2EB-CDE366B29F00}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PHPE</RootNamespace>
+    <AssemblyName>PHPE</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'IPA|AnyCPU'">
+    <OutputPath>bin\IPA\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="0Harmony, Version=1.0.9.1, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="IllusionInjector, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="IllusionPlugin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="PHIBL, Version=4.0.6714.38721, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AMModules\AdvancedModeModule.cs" />
+    <Compile Include="AMModules\BlendShapesEditor.cs" />
+    <Compile Include="AMModules\BonesEditor.cs" />
+    <Compile Include="AMModules\BoobsEditor.cs" />
+    <Compile Include="AMModules\CollidersEditor.cs" />
+    <Compile Include="AMModules\DynamicBonesEditor.cs" />
+    <Compile Include="AMModules\GenericOCITarget.cs" />
+    <Compile Include="AMModules\IKEditor.cs" />
+    <Compile Include="CameraEventsDispatcher.cs" />
+    <Compile Include="CharaPoseController.cs" />
+    <Compile Include="Commands.cs" />
+    <Compile Include="EditableValue.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="HarmonyPatches.cs" />
+    <Compile Include="HSPE.cs" />
+    <Compile Include="MainWindow.cs" />
+    <Compile Include="PoseController.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vectrosity\BrightnessControl.cs" />
+    <Compile Include="Vectrosity\CapInfo.cs" />
+    <Compile Include="Vectrosity\IVectorObject.cs" />
+    <Compile Include="Vectrosity\LineManager.cs" />
+    <Compile Include="Vectrosity\RefInt.cs" />
+    <Compile Include="Vectrosity\VectorChar.cs" />
+    <Compile Include="Vectrosity\VectorLine.cs" />
+    <Compile Include="Vectrosity\VectorManager.cs" />
+    <Compile Include="Vectrosity\VectorObject2D.cs" />
+    <Compile Include="Vectrosity\VectorObject3D.cs" />
+    <Compile Include="Vectrosity\VectorUtilities.cs" />
+    <Compile Include="Vectrosity\VisibilityControl.cs" />
+    <Compile Include="Vectrosity\VisibilityControlAlways.cs" />
+    <Compile Include="Vectrosity\VisibilityControlStatic.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="RawResources\Icon.psd" />
+    <None Include="Resources\aiperesources.unity3d" />
+    <None Include="Resources\HS2PEResources.unity3d" />
+    <None Include="Resources\hsperesources.unity3d" />
+    <None Include="Resources\kkperesources.unity3d" />
+    <None Include="Resources\Thumbs.db" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ToolBox\ToolBox.csproj">
+      <Project>{d7e512b2-4e7a-4455-bd7d-97dacf5a039a}</Project>
+      <Name>ToolBox</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UIUtility\UIUtility.csproj">
+      <Project>{5ff39402-d216-42de-9aaa-ba34103f1786}</Project>
+      <Name>UIUtility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

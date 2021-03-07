@@ -1,0 +1,2 @@
+C:\home\PHPluginsHSPE\ToolBox\obj\HS2\ToolBox.csprojAssemblyReference.cache
+C:\home\PHPluginsHSPE\ToolBox\obj\HS2\ToolBox.csproj.CoreCompileInputs.cache

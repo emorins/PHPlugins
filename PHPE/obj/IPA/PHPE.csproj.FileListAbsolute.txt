@@ -1,0 +1,2 @@
+C:\home\PHPluginsHSPE\PHPE\obj\IPA\PHPE.csprojAssemblyReference.cache
+C:\home\PHPluginsHSPE\PHPE\obj\IPA\PHPE.csproj.CoreCompileInputs.cache
